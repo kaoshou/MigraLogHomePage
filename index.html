@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的頭痛日記 - 最少點擊、最大價值的偏頭痛紀錄助手</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #0b0f19;
+      --text-color: #f8fafc;
+      --text-muted: #64748b;
+      --text-body: #cbd5e1;
+      --primary-color: #0ea5e9;
+      --primary-glow: rgba(14, 165, 233, 0.2);
+      --secondary-color: #2dd4bf;
+      --secondary-glow: rgba(45, 212, 191, 0.2);
+      --accent-color: #6366f1;
+      --accent-glow: rgba(99, 102, 241, 0.2);
+      --glass-bg: rgba(15, 23, 42, 0.55);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --card-hover-border: rgba(45, 212, 191, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', 'Noto Sans TC', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.7;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Spatial Flow Background Blobs */
+    .bg-blob-container {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: -2;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .blur-blob {
+      position: absolute;
+      width: 550px;
+      height: 550px;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.15;
+      animation: floatBlob 25s infinite alternate ease-in-out;
+    }
+
+    .blob-1 {
+      background: var(--primary-color);
+      top: -10%; left: -5%;
+    }
+
+    .blob-2 {
+      background: var(--secondary-color);
+      bottom: 10%; right: -10%;
+      animation-delay: -7s;
+    }
+
+    .blob-3 {
+      background: var(--accent-color);
+      top: 40%; left: 35%;
+      animation-delay: -14s;
+    }
+
+    @keyframes floatBlob {
+      0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+      50% { transform: translate(80px, 50px) scale(1.15) rotate(180deg); }
+      100% { transform: translate(-40px, 120px) scale(0.9) rotate(360deg); }
+    }
+
+    /* Bilingual Toggle CSS */
+    body.lang-zh [lang="en"] {
+      display: none !important;
+    }
+    body.lang-en [lang="zh"] {
+      display: none !important;
+    }
+
+    /* Header Nav */
+    header {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo-img {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(14, 165, 233, 0.4);
+      object-fit: cover;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #ffffff 40%, var(--text-body) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      color: var(--text-body);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: all 0.3s;
+      position: relative;
+      padding: 0.25rem 0;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 2px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #fff;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .lang-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--glass-border);
+      color: var(--text-body);
+      padding: 0.6rem 1.2rem;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s;
+      backdrop-filter: blur(10px);
+    }
+
+    .lang-btn:hover {
+      border-color: var(--primary-color);
+      color: #fff;
+      background: rgba(14, 165, 233, 0.1);
+      box-shadow: 0 0 15px rgba(14, 165, 233, 0.25);
+      transform: translateY(-1px);
+    }
+
+    /* Main Content */
+    main {
+      max-width: 1200px;
+      margin: 1rem auto 8rem;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 5;
+    }
+
+    /* Hero section */
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 5rem;
+      padding: 4rem 0 6rem;
+    }
+
+    .hero-content {
+      flex: 1.3;
+      max-width: 700px;
+    }
+
+    /* Release Badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: rgba(45, 212, 191, 0.08);
+      border: 1px solid rgba(45, 212, 191, 0.2);
+      color: var(--secondary-color);
+      padding: 0.5rem 1.2rem;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 12px rgba(45, 212, 191, 0.05);
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--secondary-color);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--secondary-color);
+      animation: pulse 1.5s infinite;
+    }
+
+    .hero-title {
+      font-size: 3.8rem;
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 2rem;
+      letter-spacing: -1.5px;
+      background: linear-gradient(135deg, #ffffff 40%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: var(--text-body);
+      margin-bottom: 3rem;
+      font-weight: 400;
+      line-height: 1.8;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 2.2rem;
+      border-radius: 16px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: #0b0f19;
+      box-shadow: 0 8px 30px rgba(14, 165, 233, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(14, 165, 233, 0.5);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text-color);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-3px);
+    }
+
+    .hero-visual {
+      flex: 0.7;
+      display: flex;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* Detailed Phone Mockup */
+    .phone-mockup {
+      width: 290px;
+      height: 590px;
+      background: #090d16;
+      border-radius: 44px;
+      border: 13px solid #1e293b;
+      box-shadow: 
+        0 25px 60px -15px rgba(0, 0, 0, 0.8),
+        0 0 50px rgba(14, 165, 233, 0.15);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .phone-mockup:hover {
+      transform: scale(1.03) rotate(0.5deg);
+      box-shadow: 
+        0 30px 70px -10px rgba(0, 0, 0, 0.9),
+        0 0 60px rgba(45, 212, 191, 0.25);
+    }
+
+    /* Screen Reflection Overlay */
+    .phone-mockup::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 200%; height: 100%;
+      background: linear-gradient(115deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 25%, transparent 50%);
+      transform: skewX(-25deg);
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    /* Phone Notch */
+    .phone-mockup::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 18px;
+      background: #1e293b;
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+      z-index: 6;
+    }
+
+    .phone-mockup img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Section Title */
+    .section-title-wrapper {
+      text-align: center;
+      margin: 8rem 0 4rem;
+    }
+
+    .section-title {
+      font-size: 2.6rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #fff, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-subtitle {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+    }
+
+    /* Feature Card Grid */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+    }
+
+    .feature-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 28px;
+      padding: 3rem 2.2rem;
+      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: radial-gradient(circle at 10% 10%, rgba(255,255,255,0.03) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      background: rgba(15, 23, 42, 0.75);
+      border-color: rgba(45, 212, 191, 0.35);
+      box-shadow: 
+        0 20px 45px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(45, 212, 191, 0.1);
+    }
+
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 18px;
+      background: rgba(14, 165, 233, 0.08);
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.75rem;
+      font-size: 1.6rem;
+      border: 1px solid rgba(14, 165, 233, 0.15);
+      transition: all 0.3s;
+    }
+
+    .feature-card:hover .feature-icon {
+      background: rgba(45, 212, 191, 0.15);
+      color: var(--secondary-color);
+      border-color: rgba(45, 212, 191, 0.3);
+      box-shadow: 0 0 20px rgba(45, 212, 191, 0.2);
+    }
+
+    .feature-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+
+    .feature-desc {
+      color: var(--text-body);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    /* Screenshots Gallery Section */
+    .screenshots-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+
+    .screenshot-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 28px;
+      padding: 1rem;
+      text-align: center;
+      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    .screenshot-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--secondary-color);
+      background: rgba(15, 23, 42, 0.8);
+      box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.5),
+        0 0 25px rgba(45, 212, 191, 0.15);
+    }
+
+    .screenshot-wrapper {
+      width: 100%;
+      border-radius: 18px;
+      overflow: hidden;
+      aspect-ratio: 9 / 19.5;
+      background: #090d16;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+
+    .screenshot-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .screenshot-card:hover .screenshot-wrapper img {
+      transform: scale(1.04);
+    }
+
+    .screenshot-label {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #fff;
+      padding-bottom: 0.5rem;
+    }
+
+    /* Detailed Watch Mockup */
+    .watch-mockup {
+      width: 180px;
+      height: 180px;
+      background: #000;
+      border-radius: 50%;
+      border: 8px solid #334155;
+      box-shadow: 
+        0 12px 30px rgba(0, 0, 0, 0.6),
+        0 0 0 4px #1e293b;
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 1 / 1;
+      margin: 0.75rem auto 1.25rem;
+      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    /* Watch Side Button (Crown) */
+    .watch-mockup::before {
+      content: '';
+      position: absolute;
+      right: -5px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 10px;
+      height: 22px;
+      background: #475569;
+      border-radius: 3px;
+      z-index: 10;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.4);
+      border: 1px solid #64748b;
+    }
+
+    .screenshot-card:hover .watch-mockup {
+      transform: scale(1.06);
+      border-color: var(--secondary-color);
+      box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.7),
+        0 0 0 4px var(--secondary-color),
+        0 0 25px rgba(45, 212, 191, 0.3);
+    }
+
+    .watch-mockup img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .screenshot-card:hover .watch-mockup img {
+      transform: scale(1.05);
+    }
+
+    /* Lightbox Modal */
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(7, 10, 17, 0.96);
+      backdrop-filter: blur(12px);
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox-content {
+      max-height: 88vh;
+      max-width: 90vw;
+      border-radius: 28px;
+      border: 4px solid #1e293b;
+      box-shadow: 0 30px 70px rgba(0,0,0,0.8);
+      animation: zoomIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(0.92); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    /* Developer Profile Section */
+    .developer-section {
+      max-width: 900px;
+      margin: 8rem auto 2rem;
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.5), rgba(15, 23, 42, 0.5));
+      border: 1px solid var(--glass-border);
+      border-radius: 32px;
+      padding: 4rem 3.5rem;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
+      display: flex;
+      gap: 3rem;
+      align-items: center;
+      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      position: relative;
+    }
+
+    .developer-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: radial-gradient(circle at 100% 0%, rgba(99, 102, 241, 0.05) 0%, transparent 50%);
+      pointer-events: none;
+      border-radius: 32px;
+    }
+
+    .developer-section:hover {
+      border-color: rgba(45, 212, 191, 0.3);
+      box-shadow: 
+        0 25px 55px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(45, 212, 191, 0.08);
+    }
+
+    .developer-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.8rem;
+      box-shadow: 0 10px 25px rgba(14, 165, 233, 0.35);
+      flex-shrink: 0;
+      color: #fff;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .developer-info {
+      flex: 1;
+    }
+
+    .developer-name {
+      font-size: 1.8rem;
+      font-weight: 900;
+      margin-bottom: 0.3rem;
+      color: #fff;
+      letter-spacing: -0.5px;
+    }
+
+    .developer-title {
+      font-size: 0.95rem;
+      color: var(--secondary-color);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 1.25rem;
+    }
+
+    .developer-bio {
+      color: var(--text-body);
+      font-size: 1rem;
+      margin-bottom: 1.75rem;
+      line-height: 1.8;
+    }
+
+    .developer-contact {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.9rem;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 0.6rem 1.4rem;
+      border-radius: 30px;
+      border: 1px solid var(--glass-border);
+      transition: all 0.3s;
+    }
+
+    .developer-contact:hover {
+      color: var(--secondary-color);
+      border-color: var(--secondary-color);
+      background: rgba(45, 212, 191, 0.08);
+      box-shadow: 0 0 15px rgba(45, 212, 191, 0.2);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--glass-border);
+      padding: 4rem 2rem;
+      background: rgba(7, 10, 17, 0.95);
+      margin-top: 8rem;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.3s;
+      font-weight: 500;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary-color);
+    }
+
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 992px) {
+      .features {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .screenshots-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .features {
+        grid-template-columns: 1fr;
+      }
+      .hero {
+        flex-direction: column;
+        text-align: center;
+        gap: 3rem;
+      }
+      .hero-title {
+        font-size: 2.8rem;
+      }
+      .btn-group {
+        justify-content: center;
+      }
+      header {
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 2rem;
+      }
+      .header-right {
+        flex-direction: column;
+        gap: 1.25rem;
+      }
+      .footer-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+      }
+      .screenshots-grid {
+        grid-template-columns: 1fr;
+        max-width: 310px;
+        margin: 0 auto;
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 0.6; }
+    }
+  </style>
+</head>
+<body class="lang-zh">
+
+  <!-- Spatial Background Blobs -->
+  <div class="bg-blob-container">
+    <div class="blur-blob blob-1"></div>
+    <div class="blur-blob blob-2"></div>
+    <div class="blur-blob blob-3"></div>
+  </div>
+
+  <header>
+    <div class="logo-container">
+      <img class="logo-img" src="logo.png" alt="App Logo">
+      <div class="logo-text">
+        <span lang="zh">我的頭痛日記</span>
+        <span lang="en">My Headache Diary</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <nav class="nav-links">
+        <a href="privacy.html">
+          <span lang="zh">隱私權政策</span>
+          <span lang="en">Privacy Policy</span>
+        </a>
+        <a href="terms.html">
+          <span lang="zh">服務條款</span>
+          <span lang="en">Terms of Service</span>
+        </a>
+      </nav>
+      <button class="lang-btn" onclick="toggleLanguage()">
+        🌐 <span id="lang-btn-text">English</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <!-- Version Badge -->
+        <div class="badge">
+          <span class="badge-dot"></span>
+          <span>Version 1.5.0 • Google Drive Sync</span>
+        </div>
+        <h1 class="hero-title">
+          <span lang="zh">最少點擊，<br><span>掌握偏頭痛關鍵</span></span>
+          <span lang="en">Minimal Clicks,<br><span>Max Headache Value</span></span>
+        </h1>
+        <p class="hero-subtitle">
+          <span lang="zh">專為偏頭痛患者設計的極簡追蹤日記。首創一鍵快捷記錄與手錶端獨立運作，自動進行無伺服器 (Serverless) 的個人 Google Drive 加密同步。智慧交叉分析誘因與有效藥物，為您的就診提供最精準的臨床參考。</span>
+          <span lang="en">An ultra-minimalist tracker designed for migraine sufferers. Log attacks instantly with a single click or directly via your smartwatch. Enjoy direct, serverless Google Drive encryption sync. Automatically aggregate triggers and medications to provide precise insights for your doctor.</span>
+        </p>
+        <div class="btn-group">
+          <a href="https://play.google.com/store/apps/details?id=tw.yuhan.migralog" class="btn btn-primary">
+            <span lang="zh">📥 Google Play 下載</span>
+            <span lang="en">📥 Get it on Google Play</span>
+          </a>
+          <a href="privacy.html" class="btn btn-secondary">
+            <span lang="zh">閱讀隱私政策</span>
+            <span lang="en">Read Privacy Policy</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="phone-mockup">
+          <img src="screenshot_home.jpg" alt="MigraLog App Home Screen">
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section>
+      <div class="section-title-wrapper">
+        <h2 class="section-title">
+          <span lang="zh">極致簡約，智慧強大</span>
+          <span lang="en">Simple Yet Powerful</span>
+        </h2>
+        <p class="section-subtitle">
+          <span lang="zh">以最純粹的隱私保護，帶來最實用的追蹤分析</span>
+          <span lang="en">Privacy-first tracking with advanced, actionable insights</span>
+        </p>
+      </div>
+
+      <div class="features">
+        <!-- Feature 1: Quick Log -->
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3 class="feature-title">
+            <span lang="zh">極速發作登錄</span>
+            <span lang="en">Quick Attack Log</span>
+          </h3>
+          <p class="feature-desc">
+            <span lang="zh">發作當下無須面對手機刺眼螢幕填寫繁瑣欄位。只需輕觸 App 醒目的一鍵快捷大按鈕，即可瞬間登錄發作，等稍後休息完畢再行補充完整細節。</span>
+            <span lang="en">No eye-straining forms when an attack strikes. Log the event instantly with one tap on the prominent button, and easily supplement details after resting.</span>
+          </p>
+        </div>
+
+        <!-- Feature 2: Wear OS Support -->
+        <div class="feature-card">
+          <div class="feature-icon">⌚</div>
+          <h3 class="feature-title">
+            <span lang="zh">支援 Wear OS 手錶</span>
+            <span lang="en">Wear OS Smartwatch</span>
+          </h3>
+          <p class="feature-desc">
+            <span lang="zh">手錶端專屬獨立一鍵快捷登錄，在疼痛難忍、手邊沒拿手機時一戳即完。藍牙重新連線後，手錶紀錄會自動與手機端合併同步，並支援瀏覽本地歷史。</span>
+            <span lang="en">Equipped with a standalone Wear OS app. Tap your wrist to record the onset instantly when away from your phone. Reconnects to merge records automatically.</span>
+          </p>
+        </div>
+
+        <!-- Feature 3: Serverless Sync -->
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h3 class="feature-title">
+            <span lang="zh">零第三方追蹤與直連雲端</span>
+            <span lang="en">Zero Tracking & Direct Sync</span>
+          </h3>
+          <p class="feature-desc">
+            <span lang="zh">採用本地優先儲存。若啟用「Google Drive 同步」，手機直接以加密通道連線您個人的雲端硬碟 AppData 專屬資料夾，無伺服器中轉，完全保障您的隱私。</span>
+            <span lang="en">Local-first architecture with zero third-party tracking SDKs. Direct serverless backup connects your device straight to your personal Google Drive AppData folder.</span>
+          </p>
+        </div>
+
+        <!-- Feature 4: Smart Charts -->
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3 class="feature-title">
+            <span lang="zh">智慧圖表與趨勢統計</span>
+            <span lang="en">Smart Charts & Stats</span>
+          </h3>
+          <p class="feature-desc">
+            <span lang="zh">自動整理出痛感嚴重度、發作次數以及月曆趨勢圖表。以清晰直觀的數據面板呈现，讓您輕鬆掌握近期頭痛起伏規律與可能誘發因素。</span>
+            <span lang="en">Automatically aggregates pain intensities, frequencies, and calendar trends. View beautiful visualizations on your dashboard to spot trigger patterns.</span>
+          </p>
+        </div>
+
+        <!-- Feature 5: Export PDF -->
+        <div class="feature-card">
+          <div class="feature-icon">📄</div>
+          <h3 class="feature-title">
+            <span lang="zh">匯出 PDF 日誌與數據</span>
+            <span lang="en">Export PDF & CSV Logs</span>
+          </h3>
+          <p class="feature-desc">
+            <span lang="zh">支持將歷史記錄一鍵匯出為精美排版的 PDF 日誌報告或標準 CSV 數據表格。您可以方便地將其貼入個人筆記，或直接在診間提供給就診醫師進行評估。</span>
+            <span lang="en">Export logs into professionally formatted PDF reports or standard CSV tables in one click. Easy to print, save to notes, or share with your physician.</span>
+          </p>
+        </div>
+
+        <!-- Feature 6: Desktop Widgets -->
+        <div class="feature-card">
+          <div class="feature-icon">📱</div>
+          <h3 class="feature-title">
+            <span lang="zh">桌面小工具與個人客製</span>
+            <span lang="en">Desktop Widgets & Settings</span>
+          </h3>
+          <p class="feature-desc">
+            <span lang="zh">提供實用的 Android 桌面 Widget 小工具，讓您免打開 App 就能從桌面一鍵快速登錄。支持自定義常備藥物清單與多國語言，完美契合您的個人習慣。</span>
+            <span lang="en">Quickly log headaches directly from your Android home screen via desktop widgets. Custom lists for drugs and full translation support match your daily routines.</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Phone Screenshots Gallery Section -->
+    <section>
+      <div class="section-title-wrapper">
+        <h2 class="section-title">
+          <span lang="zh">手機端介面</span>
+          <span lang="en">Mobile UI Showcase</span>
+        </h2>
+        <p class="section-subtitle">
+          <span lang="zh">直覺、深色友善的偏頭痛記錄頁面</span>
+          <span lang="en">Intuitive, dark-mode friendly screens designed for comfort</span>
+        </p>
+      </div>
+
+      <div class="screenshots-grid">
+        <!-- Screenshot 1 -->
+        <div class="screenshot-card" onclick="openLightbox('screenshot_home.jpg')">
+          <div class="screenshot-wrapper">
+            <img src="screenshot_home.jpg" alt="Home Logs Screen">
+          </div>
+          <div class="screenshot-label">
+            <span lang="zh">1. 首頁發作日誌</span>
+            <span lang="en">1. Logs Timeline</span>
+          </div>
+        </div>
+
+        <!-- Screenshot 2 -->
+        <div class="screenshot-card" onclick="openLightbox('screenshot_log.jpg')">
+          <div class="screenshot-wrapper">
+            <img src="screenshot_log.jpg" alt="Log Headache Form">
+          </div>
+          <div class="screenshot-label">
+            <span lang="zh">2. 頭痛詳細登錄</span>
+            <span lang="en">2. Log Headache</span>
+          </div>
+        </div>
+
+        <!-- Screenshot 3 -->
+        <div class="screenshot-card" onclick="openLightbox('screenshot_calendar.jpg')">
+          <div class="screenshot-wrapper">
+            <img src="screenshot_calendar.jpg" alt="Calendar View">
+          </div>
+          <div class="screenshot-label">
+            <span lang="zh">3. 月曆與雙週檢視</span>
+            <span lang="en">3. Calendar View</span>
+          </div>
+        </div>
+
+        <!-- Screenshot 4 -->
+        <div class="screenshot-card" onclick="openLightbox('screenshot_sync.jpg')">
+          <div class="screenshot-wrapper">
+            <img src="screenshot_sync.jpg" alt="Cloud Backup & Sync Screen">
+          </div>
+          <div class="screenshot-label">
+            <span lang="zh">4. 雲端同步與備份</span>
+            <span lang="en">4. Cloud Sync & Backup</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Wear OS Screenshots Section -->
+    <section>
+      <div class="section-title-wrapper">
+        <h2 class="section-title">
+          <span lang="zh">⌚ Wear OS 手錶端介面</span>
+          <span lang="en">⌚ Wear OS Watch UI</span>
+        </h2>
+        <p class="section-subtitle">
+          <span lang="zh">手腕上的即時快捷記錄與歷史查閱</span>
+          <span lang="en">Wrist-based instant entry and logs history at a glance</span>
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; justify-items: center; margin-top: 2rem;">
+        <!-- Watch Screenshot 1 -->
+        <div class="screenshot-card" style="max-width: 220px;" onclick="openLightbox('screenshot_watch_home.png')">
+          <div class="watch-mockup">
+            <img src="screenshot_watch_home.png" alt="Watch Main Screen">
+          </div>
+          <div class="screenshot-label">
+            <span lang="zh">1. 快捷登錄首頁</span>
+            <span lang="en">1. Watch Home</span>
+          </div>
+        </div>
+
+        <!-- Watch Screenshot 2 -->
+        <div class="screenshot-card" style="max-width: 220px;" onclick="openLightbox('screenshot_watch_log.png')">
+          <div class="watch-mockup">
+            <img src="screenshot_watch_log.png" alt="Watch Log Form">
+          </div>
+          <div class="screenshot-label">
+            <span lang="zh">2. 痛感與症狀登錄</span>
+            <span lang="en">2. Log Attack</span>
+          </div>
+        </div>
+
+        <!-- Watch Screenshot 3 -->
+        <div class="screenshot-card" style="max-width: 220px;" onclick="openLightbox('screenshot_watch_history.png')">
+          <div class="watch-mockup">
+            <img src="screenshot_watch_history.png" alt="Watch Logs List">
+          </div>
+          <div class="screenshot-label">
+            <span lang="zh">3. 本地歷史紀錄</span>
+            <span lang="en">3. Watch History</span>
+          </div>
+        </div>
+
+        <!-- Watch Screenshot 4 -->
+        <div class="screenshot-card" style="max-width: 220px;" onclick="openLightbox('screenshot_watch_detail.png')">
+          <div class="watch-mockup">
+            <img src="screenshot_watch_detail.png" alt="Watch Log Detail">
+          </div>
+          <div class="screenshot-label">
+            <span lang="zh">4. 紀錄詳細資訊</span>
+            <span lang="en">4. Log Details</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Developer Info Section -->
+    <section class="developer-section">
+      <div class="developer-avatar">👨‍💻</div>
+      <div class="developer-info">
+        <h2 class="developer-name" style="margin: 0 0 0.25rem 0; border: none; padding: 0; background: none; -webkit-text-fill-color: initial;">
+          <span lang="zh">開發者資訊</span>
+          <span lang="en">Developer Profile</span>
+        </h2>
+        <div class="developer-title">
+          <span lang="zh">作者：鄭郁翰 (Yu-Han Cheng)</span>
+          <span lang="en">Created by Yu-Han Cheng (鄭郁翰)</span>
+        </div>
+        <p class="developer-bio">
+          <span lang="zh">身為受偏頭痛所苦的開發者，我深刻理解每一次發作帶來的痛苦與不便。因此，我以「最少點擊、最大價值」為核心打造了這款「完全本機儲存、零外部追蹤」的健康管理工具。希望能為您提供最純粹、最安全的偏頭痛紀錄體驗，並在您就診諮詢時提供真正有價值的診斷參考。</span>
+          <span lang="en">As a developer who personally battles chronic migraines, I understand the pain and frustration each attack brings. This motivated me to build this utility under the philosophy of "minimal clicks, maximum value, and absolute privacy" with zero tracking. I hope it helps you manage your symptoms effortlessly and provide meaningful references for your next doctor's visit.</span>
+        </p>
+        <a href="mailto:kaoshou@gmail.com" class="developer-contact">
+          📧 <span lang="zh">聯絡開發者 (kaoshou@gmail.com)</span>
+          <span lang="en">Contact Developer (kaoshou@gmail.com)</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Lightbox Modal -->
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <img id="lightbox-img" class="lightbox-content" src="" alt="Zoomed Screenshot">
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <div class="copyright">
+        &copy; 2026 我的頭痛日記. 保留所有權利。 / All Rights Reserved.
+      </div>
+      <div class="footer-links">
+        <a href="privacy.html">
+          <span lang="zh">隱私權政策</span>
+          <span lang="en">Privacy Policy</span>
+        </a>
+        <a href="terms.html">
+          <span lang="zh">服務條款</span>
+          <span lang="en">Terms of Service</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Toggle Language between zh (Chinese) and en (English)
+    function toggleLanguage() {
+      const body = document.body;
+      const langBtnText = document.getElementById('lang-btn-text');
+      
+      if (body.classList.contains('lang-zh')) {
+        body.classList.remove('lang-zh');
+        body.classList.add('lang-en');
+        langBtnText.innerText = '繁體中文';
+        localStorage.setItem('lang', 'en');
+      } else {
+        body.classList.remove('lang-en');
+        body.classList.add('lang-zh');
+        langBtnText.innerText = 'English';
+        localStorage.setItem('lang', 'zh');
+      }
+    }
+
+    // Initialize Language from preference
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('lang');
+      const body = document.body;
+      const langBtnText = document.getElementById('lang-btn-text');
+
+      if (savedLang === 'en') {
+        body.classList.remove('lang-zh');
+        body.classList.add('lang-en');
+        langBtnText.innerText = '繁體中文';
+      } else {
+        body.classList.remove('lang-en');
+        body.classList.add('lang-zh');
+        langBtnText.innerText = 'English';
+      }
+    });
+
+    // Lightbox Functions
+    function openLightbox(src) {
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightbox-img');
+      lightboxImg.src = src;
+      lightbox.classList.add('active');
+    }
+
+    function closeLightbox() {
+      const lightbox = document.getElementById('lightbox');
+      lightbox.classList.remove('active');
+    }
+  </script>
+
+</body>
+</html>

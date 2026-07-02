@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>服務條款 - 我的頭痛日記 / Terms of Service</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+TC:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #0f172a;
+      --text-color: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary-color: #0ea5e9;
+      --primary-glow: rgba(14, 165, 233, 0.15);
+      --secondary-color: #2dd4bf;
+      --secondary-glow: rgba(45, 212, 191, 0.15);
+      --accent-color: #6366f1;
+      --glass-bg: rgba(30, 41, 59, 0.7);
+      --glass-border: rgba(255, 255, 255, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', 'Noto Sans TC', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.7;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Spatial Flow Background Blobs */
+    .bg-blob-container {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: -2;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .blur-blob {
+      position: absolute;
+      width: 550px;
+      height: 550px;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.15;
+      animation: floatBlob 25s infinite alternate ease-in-out;
+    }
+
+    .blob-1 {
+      background: var(--primary-color);
+      top: -10%; left: -5%;
+    }
+
+    .blob-2 {
+      background: var(--secondary-color);
+      bottom: 10%; right: -10%;
+      animation-delay: -7s;
+    }
+
+    .blob-3 {
+      background: var(--accent-color);
+      top: 40%; left: 35%;
+      animation-delay: -14s;
+    }
+
+    @keyframes floatBlob {
+      0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+      50% { transform: translate(80px, 50px) scale(1.15) rotate(180deg); }
+      100% { transform: translate(-40px, 120px) scale(0.9) rotate(360deg); }
+    }
+
+    /* Bilingual Toggle CSS */
+    body.lang-zh [lang="en"] {
+      display: none !important;
+    }
+    body.lang-en [lang="zh"] {
+      display: none !important;
+    }
+
+    header {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+
+    .logo-img {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);
+      object-fit: cover;
+    }
+
+    .logo-text {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary-color);
+    }
+
+    .lang-btn {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      color: var(--text-color);
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s;
+    }
+
+    .lang-btn:hover {
+      border-color: var(--primary-color);
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 1rem auto 6rem;
+      padding: 0 2rem;
+    }
+
+    .content-box {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 3rem;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #fff, var(--text-muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .last-updated {
+      color: var(--secondary-color);
+      font-size: 0.95rem;
+      margin-bottom: 2.5rem;
+      font-weight: 600;
+    }
+
+    h2 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin: 2rem 0 1rem;
+      color: var(--primary-color);
+      border-left: 4px solid var(--secondary-color);
+      padding-left: 0.75rem;
+    }
+
+    p {
+      color: #e2e8f0;
+      margin-bottom: 1.25rem;
+    }
+
+    ul, ol {
+      margin-left: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: #e2e8f0;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    .alert-warning {
+      background: rgba(244, 63, 94, 0.08);
+      border: 1px solid rgba(244, 63, 94, 0.2);
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin: 1.5rem 0;
+      color: #e2e8f0;
+    }
+
+    .alert-title {
+      font-weight: 700;
+      color: #f43f5e;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    footer {
+      border-top: 1px solid var(--glass-border);
+      padding: 3rem 2rem;
+      background: rgba(15, 23, 42, 0.8);
+      text-align: center;
+      margin-top: 4rem;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary-color);
+    }
+
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 768px) {
+      .content-box {
+        padding: 1.5rem;
+      }
+      h1 {
+        font-size: 1.75rem;
+      }
+      header {
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body class="lang-zh">
+
+  <!-- Spatial Background Blobs -->
+  <div class="bg-blob-container">
+    <div class="blur-blob blob-1"></div>
+    <div class="blur-blob blob-2"></div>
+    <div class="blur-blob blob-3"></div>
+  </div>
+
+  <header>
+    <a href="index.html" class="logo-container">
+      <img class="logo-img" src="logo.png" alt="App Logo">
+      <div class="logo-text">
+        <span lang="zh">我的頭痛日記</span>
+        <span lang="en">My Headache Diary</span>
+      </div>
+    </a>
+    <div class="header-right">
+      <nav class="nav-links">
+        <a href="index.html">
+          <span lang="zh">返回首頁</span>
+          <span lang="en">Home</span>
+        </a>
+      </nav>
+      <button class="lang-btn" onclick="toggleLanguage()">
+        🌐 <span id="lang-btn-text">English</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="content-box">
+      <!-- Title -->
+      <h1>
+        <span lang="zh">服務條款 (Terms of Service)</span>
+        <span lang="en">Terms of Service</span>
+      </h1>
+      <div class="last-updated">
+        <span lang="zh">最後更新日期：2026年7月3日</span>
+        <span lang="en">Last Updated: July 3, 2026</span>
+      </div>
+
+      <p>
+        <span lang="zh">歡迎您下載並使用「我的頭痛日記」行動應用程式（以下稱「本程式」或「本服務」）。請在使用本服務前，仔細閱讀以下服務條款。一旦您開始使用本服務，即表示您已閱讀、理解並同意受本服務條款所有條款之約束。</span>
+        <span lang="en">Welcome to download and use the "My Headache Diary" mobile application (hereinafter referred to as "the App" or "the Service"). Please read these Terms of Service carefully. By using the Service, you acknowledge that you have read, understood, and agreed to be bound by these Terms.</span>
+      </p>
+
+      <!-- Disclaimer Alert -->
+      <div class="alert-warning">
+        <div class="alert-title">
+          <span lang="zh">⚠️ 醫療免責重要聲明（Medical Disclaimer）</span>
+          <span lang="en">⚠️ Medical Disclaimer</span>
+        </div>
+        <p>
+          <span lang="zh"><strong>「我的頭痛日記」並非醫療器材，亦不提供任何專業醫療診斷、建議、治療或處方。</strong></span>
+          <span lang="en"><strong>My Headache Diary is NOT a medical device, nor does it provide professional medical diagnostics, advice, treatment, or prescriptions.</strong></span>
+        </p>
+        <p>
+          <span lang="zh">本程式內的所有功能、圖表報告與智慧關聯分析結果，僅供您作為個人日常生活事件記錄之參考輔助。<strong>本程式的任何內容皆不應被視為專業醫學診斷之替代品。</strong> 絕不可因本程式的任何顯示內容而延遲尋求醫療協助，或忽視專業醫師的醫療診斷與處方建議。</span>
+          <span lang="en">All features, charts, and smart insights within the App are designed strictly as auxiliary references for logging personal daily events. <strong>Nothing in the App should replace professional medical consulting.</strong> Never delay seeking medical advice or disregard professional medical prescriptions because of something you read on the App.</span>
+        </p>
+      </div>
+
+      <!-- Section 1 -->
+      <h2>
+        <span lang="zh">1. 服務範圍與授權</span>
+        <span lang="en">1. License & Scope of Service</span>
+      </h2>
+      <ul>
+        <li>
+          <span lang="zh">本程式授予您一項個人的、不可轉讓的、非獨佔的、免費的授權，以供您在相容的行動裝置上安裝並使用本服務。</span>
+          <span lang="en">The App grants you a personal, non-transferable, non-exclusive, free license to install and use the Service on compatible mobile devices.</span>
+        </li>
+        <li>
+          <span lang="zh">本程式不含任何廣告，亦不提供需付費解鎖的進階增值功能。</span>
+          <span lang="en">The Service contains no ads and does not offer any premium in-app purchases or paywalls.</span>
+        </li>
+      </ul>
+
+      <!-- Section 2 -->
+      <h2>
+        <span lang="zh">2. 使用者資料與備份責任</span>
+        <span lang="en">2. User Data & Backup Responsibility</span>
+      </h2>
+      <ul>
+        <li>
+          <span lang="zh"><strong>資料所有權歸您所有</strong>：本程式所記錄之所有內容（如疼痛感、症狀、藥物）皆為您個人的隱私資料。</span>
+          <span lang="en"><strong>Data Ownership</strong>: All records logged (pain intensity, symptoms, medications) belong entirely to you as private health records.</span>
+        </li>
+        <li>
+          <span lang="zh"><strong>本地優先原則</strong>：由於本程式預設採用完全本機儲存，我們沒有中央伺服器保管您的資料。若您不慎遺失手機、清除 App 資料庫、或於未備份狀態下解除安裝 App，您的所有歷史紀錄將會永久遺失。</span>
+          <span lang="en"><strong>Local-First Storage</strong>: Because the App saves data locally by default, we do not host servers to store your records. If you lose your device, clear App data, or uninstall the App without backups, your logs will be permanently deleted.</span>
+        </li>
+        <li>
+          <span lang="zh"><strong>備份的自主性</strong>：使用者應自行承擔定期進行備份的責任（如利用 App 內建的「Google Drive 雲端同步」或「手動導出 JSON 備份檔」功能）。因未備份而導致的資料損毀或遺失，本開發團隊不承擔任何補償責任。</span>
+          <span lang="en"><strong>Backup Responsibility</strong>: Users are solely responsible for backing up their data (using "Google Drive Cloud Sync" or manual JSON exports). The developer bears no liability for data loss due to lack of backups.</span>
+        </li>
+      </ul>
+
+      <!-- Section 3 -->
+      <h2>
+        <span lang="zh">3. Google Drive 同步功能的使用規範</span>
+        <span lang="en">3. Google Drive Sync Terms</span>
+      </h2>
+      <p>
+        <span lang="zh">當您啟用「Google Drive 雲端同步」時，您必須遵守 Google 雲端硬碟的相關服務規範：</span>
+        <span lang="en">When enabling Google Drive Cloud Sync, you agree to comply with Google Drive's terms:</span>
+      </p>
+      <ul>
+        <li>
+          <span lang="zh">您必須為您的 Google 帳戶安全負責，避免在公用設備或不安全的網路環境下進行同步，以防憑證與檔案外洩。</span>
+          <span lang="en">You are responsible for securing your Google credentials. Avoid syncing on public devices or insecure networks to prevent unauthorized access.</span>
+        </li>
+        <li>
+          <span lang="zh">同步時，本機會與雲端進行自動雙向合併（包含依照最後修改時間覆蓋或刪除同步）。請務必於出現「大量刪除警告」或「空檔案覆蓋提示」時仔細閱讀彈窗，以防誤操作導致資料流失。</span>
+          <span lang="en">Sync automatically triggers smart two-way merges (including overwriting or deleting based on timestamps). Please review dialog alerts (e.g. bulk deletion warnings, empty cloud warnings) carefully to prevent accidental data loss.</span>
+        </li>
+      </ul>
+
+      <!-- Section 4 -->
+      <h2>
+        <span lang="zh">4. 智慧財產權</span>
+        <span lang="en">4. Intellectual Property</span>
+      </h2>
+      <p>
+        <span lang="zh">本程式內的所有文字、軟體程式碼、介面設計、圖像及分析邏輯，均受版權法及其他相關智慧財產權法之保護。除另有開源授權聲明之部分外，未經本開發者書面許可，您不得對本程式進行逆向工程、反編譯、修改或複製其程式碼與設計。</span>
+        <span lang="en">All texts, codes, user interfaces, assets, and analytics algorithms in the App are protected by copyright laws. Except where open-source licenses state otherwise, reverse-engineering, decompiling, or copying the source code or design without written consent from the developer is strictly prohibited.</span>
+      </p>
+
+      <!-- Section 5 -->
+      <h2>
+        <span lang="zh">5. 責任限制</span>
+        <span lang="en">5. Limitation of Liability</span>
+      </h2>
+      <p>
+        <span lang="zh">在法規允許的最大範圍內，<strong>本程式是以「現狀 (As-Is)」及「可用性」提供</strong>。我們不保證本程式完全沒有錯誤、中斷或不穩定。在任何情況下，開發者均不對您因使用或無法使用本程式而造成的任何直接、間接、偶發或特別損害（包括但不限於健康變動、資料遺失等）承擔法律責任。</span>
+        <span lang="en">To the maximum extent permitted by law, <strong>the Service is provided on an "As-Is" and "As-Available" basis</strong>. We do not warrant that the App will be entirely error-free, uninterrupted, or stable. The developer shall not be liable for any direct, indirect, incidental, or special damages (including but not limited to health fluctuations or data loss) arising from using or failing to use the App.</span>
+      </p>
+
+      <!-- Section 6 -->
+      <h2>
+        <span lang="zh">6. 條款之修改與更新</span>
+        <span lang="en">6. Terms Amendment</span>
+      </h2>
+      <p>
+        <span lang="zh">我們保留隨時更新或修改本服務條款的權利。條款的更新將發佈於本網址，不另行個別通知。請定期查看此條款以確保您知悉最新的服務條款。</span>
+        <span lang="en">We reserve the right to amend these Terms at any time. Changes will be posted on this page without individual notifications. Please check this page periodically for updates.</span>
+      </p>
+
+      <!-- Section 7 -->
+      <h2>
+        <span lang="zh">7. 準據法與管轄法院</span>
+        <span lang="en">7. Governing Law & Jurisdiction</span>
+      </h2>
+      <p>
+        <span lang="zh">本服務條款之解釋、效力及履行，均以中華民國（台灣）法律為準據法。若因本條款而引起之任何爭議，雙方同意以台灣台北地方法院為第一審管轄法院。</span>
+        <span lang="en">These Terms shall be governed by and construed in accordance with the laws of the Republic of China (Taiwan). Any disputes arising from these Terms shall be submitted to the exclusive jurisdiction of the Taipei District Court in Taiwan as the court of first instance.</span>
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">
+        <span lang="zh">返回首頁</span>
+        <span lang="en">Home</span>
+      </a>
+      <a href="privacy.html">
+        <span lang="zh">隱私權政策</span>
+        <span lang="en">Privacy Policy</span>
+      </a>
+    </div>
+    <div class="copyright">
+      &copy; 2026 我的頭痛日記. 保留所有權利。 / All Rights Reserved.
+    </div>
+  </footer>
+
+  <script>
+    function toggleLanguage() {
+      const body = document.body;
+      const langBtnText = document.getElementById('lang-btn-text');
+      
+      if (body.classList.contains('lang-zh')) {
+        body.classList.remove('lang-zh');
+        body.classList.add('lang-en');
+        langBtnText.innerText = '繁體中文';
+        localStorage.setItem('lang', 'en');
+      } else {
+        body.classList.remove('lang-en');
+        body.classList.add('lang-zh');
+        langBtnText.innerText = 'English';
+        localStorage.setItem('lang', 'zh');
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('lang');
+      const body = document.body;
+      const langBtnText = document.getElementById('lang-btn-text');
+
+      if (savedLang === 'en') {
+        body.classList.remove('lang-zh');
+        body.classList.add('lang-en');
+        langBtnText.innerText = '繁體中文';
+      } else {
+        body.classList.remove('lang-en');
+        body.classList.add('lang-zh');
+        langBtnText.innerText = 'English';
+      }
+    });
+  </script>
+
+</body>
+</html>

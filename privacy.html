@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>隱私權政策 - 我的頭痛日記 / Privacy Policy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+TC:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #0f172a;
+      --text-color: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary-color: #0ea5e9;
+      --primary-glow: rgba(14, 165, 233, 0.15);
+      --secondary-color: #2dd4bf;
+      --secondary-glow: rgba(45, 212, 191, 0.15);
+      --accent-color: #6366f1;
+      --glass-bg: rgba(30, 41, 59, 0.7);
+      --glass-border: rgba(255, 255, 255, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', 'Noto Sans TC', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.7;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Spatial Flow Background Blobs */
+    .bg-blob-container {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: -2;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .blur-blob {
+      position: absolute;
+      width: 550px;
+      height: 550px;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.15;
+      animation: floatBlob 25s infinite alternate ease-in-out;
+    }
+
+    .blob-1 {
+      background: var(--primary-color);
+      top: -10%; left: -5%;
+    }
+
+    .blob-2 {
+      background: var(--secondary-color);
+      bottom: 10%; right: -10%;
+      animation-delay: -7s;
+    }
+
+    .blob-3 {
+      background: var(--accent-color);
+      top: 40%; left: 35%;
+      animation-delay: -14s;
+    }
+
+    @keyframes floatBlob {
+      0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+      50% { transform: translate(80px, 50px) scale(1.15) rotate(180deg); }
+      100% { transform: translate(-40px, 120px) scale(0.9) rotate(360deg); }
+    }
+
+    /* Bilingual Toggle CSS */
+    body.lang-zh [lang="en"] {
+      display: none !important;
+    }
+    body.lang-en [lang="zh"] {
+      display: none !important;
+    }
+
+    header {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+
+    .logo-img {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);
+      object-fit: cover;
+    }
+
+    .logo-text {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary-color);
+    }
+
+    .lang-btn {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      color: var(--text-color);
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s;
+    }
+
+    .lang-btn:hover {
+      border-color: var(--primary-color);
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 1rem auto 6rem;
+      padding: 0 2rem;
+    }
+
+    .content-box {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 3rem;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #fff, var(--text-muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .last-updated {
+      color: var(--secondary-color);
+      font-size: 0.95rem;
+      margin-bottom: 2.5rem;
+      font-weight: 600;
+    }
+
+    h2 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin: 2rem 0 1rem;
+      color: var(--primary-color);
+      border-left: 4px solid var(--secondary-color);
+      padding-left: 0.75rem;
+    }
+
+    p {
+      color: #e2e8f0;
+      margin-bottom: 1.25rem;
+    }
+
+    ul, ol {
+      margin-left: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: #e2e8f0;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    .alert {
+      background: rgba(45, 212, 191, 0.08);
+      border: 1px solid rgba(45, 212, 191, 0.2);
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin: 1.5rem 0;
+      color: #e2e8f0;
+    }
+
+    .alert-title {
+      font-weight: 700;
+      color: var(--secondary-color);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    footer {
+      border-top: 1px solid var(--glass-border);
+      padding: 3rem 2rem;
+      background: rgba(15, 23, 42, 0.8);
+      text-align: center;
+      margin-top: 4rem;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary-color);
+    }
+
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 768px) {
+      .content-box {
+        padding: 1.5rem;
+      }
+      h1 {
+        font-size: 1.75rem;
+      }
+      header {
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body class="lang-zh">
+
+  <!-- Spatial Background Blobs -->
+  <div class="bg-blob-container">
+    <div class="blur-blob blob-1"></div>
+    <div class="blur-blob blob-2"></div>
+    <div class="blur-blob blob-3"></div>
+  </div>
+
+  <header>
+    <a href="index.html" class="logo-container">
+      <img class="logo-img" src="logo.png" alt="App Logo">
+      <div class="logo-text">
+        <span lang="zh">我的頭痛日記</span>
+        <span lang="en">My Headache Diary</span>
+      </div>
+    </a>
+    <div class="header-right">
+      <nav class="nav-links">
+        <a href="index.html">
+          <span lang="zh">返回首頁</span>
+          <span lang="en">Home</span>
+        </a>
+      </nav>
+      <button class="lang-btn" onclick="toggleLanguage()">
+        🌐 <span id="lang-btn-text">English</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="content-box">
+      <!-- Title -->
+      <h1>
+        <span lang="zh">隱私權政策 (Privacy Policy)</span>
+        <span lang="en">Privacy Policy</span>
+      </h1>
+      <div class="last-updated">
+        <span lang="zh">最後更新日期：2026年7月3日</span>
+        <span lang="en">Last Updated: July 3, 2026</span>
+      </div>
+
+      <p>
+        <span lang="zh">感謝您使用「我的頭痛日記」（以下稱「本應用程式」）。我們極為重視您的個人隱私。本隱私權政策旨在說明本應用程式在無伺服器架構下，如何處理您記錄的健康資料與備份檔案。</span>
+        <span lang="en">Thank you for using "My Headache Diary" (hereinafter referred to as "the App"). We highly value your personal privacy. This Privacy Policy details how the App processes your health logs and backups under our secure serverless architecture.</span>
+      </p>
+
+      <!-- Section 1 -->
+      <h2>
+        <span lang="zh">1. 完全本機運算與儲存</span>
+        <span lang="en">1. Local Storage and Processing</span>
+      </h2>
+      <p>
+        <span lang="zh">「我的頭痛日記」秉持隱私至上的核心理念。預設情況下，本應用程式無任何外部網路伺服器，採用 <strong>「完全本機優先 (Local-First)」</strong> 的安全機制：</span>
+        <span lang="en">My Headache Diary prioritizes user privacy. By default, the App runs entirely offline without any external servers, utilizing a secure <strong>"Local-First"</strong> mechanism:</span>
+      </p>
+      <ul>
+        <li>
+          <span lang="zh">所有您輸入的發作時間、疼痛強度（VAS）、伴隨症狀、潛在誘因、服藥紀錄及備註，皆只儲存於您個人的行動裝置（手機）本地沙盒資料庫內。</span>
+          <span lang="en">All records you input (intensity, duration, symptoms, triggers, medications, notes) are stored strictly within the App's private local database sandbox on your device.</span>
+        </li>
+        <li>
+          <span lang="zh">我們不會（也無從）收集、監控、分析或向任何第三方伺服器傳送您的個人隱私與健康紀錄。</span>
+          <span lang="en">We do not collect, monitor, analyze, or transmit your private health records to any external servers.</span>
+        </li>
+      </ul>
+
+      <!-- Section 2 -->
+      <h2>
+        <span lang="zh">2. Google Drive 雲端同步服務之隱私說明</span>
+        <span lang="en">2. Google Drive Sync Privacy</span>
+      </h2>
+      <p>
+        <span lang="zh">本應用程式提供可自由啟用的 <strong>「Google Drive 雲端備份與同步」</strong> 功能。若您決定主動開啟此功能，將適用以下隱私與安全條款：</span>
+        <span lang="en">The App offers an optional <strong>"Google Drive Cloud Sync"</strong> feature. If you choose to enable this feature, the following privacy policies apply:</span>
+      </p>
+      
+      <div class="alert">
+        <div class="alert-title">
+          <span lang="zh">🔒 無伺服器（Serverless）安全直連保障</span>
+          <span lang="en">🔒 Serverless Direct Connection</span>
+        </div>
+        <p>
+          <span lang="zh">本應用程式沒有架設任何第三方雲端伺服器或中轉平台。所有的同步連線均是由您的手機直接與 Google 雲端硬碟官方 API 進行直接且加密的通訊傳輸。</span>
+          <span lang="en">The App does not run any intermediate servers or cloud APIs. The sync connection communicates directly and securely between your mobile device and Google Drive's official API.</span>
+        </p>
+      </div>
+      
+      <ul>
+        <li>
+          <span lang="zh"><strong>授權存取範圍（Scope）</strong>：本程式僅申請 Google Drive 的 <code>drive.appdata</code> (Application Data Folder) 專屬應用程式資料夾存取權限。本程式<strong>無權讀取、修改或刪除</strong>您雲端硬碟中的任何其他個人檔案與照片。</span>
+          <span lang="en"><strong>Access Scope</strong>: The App requests only the <code>drive.appdata</code> (Application Data Folder) permission. The App <strong>cannot read, edit, or delete</strong> any other files, folders, or photos on your Google Drive.</span>
+        </li>
+        <li>
+          <span lang="zh"><strong>資料所有權</strong>：備份檔案（<code>migralog_backup.json</code>）儲存在您個人 Google 帳戶的私密沙盒空間中，開發者及任何第三方皆無法存取該檔案。</span>
+          <span lang="en"><strong>Data Ownership</strong>: Backup files (<code>migralog_backup.json</code>) are stored privately inside your personal Google Account's hidden AppData folder. The developer and third parties have no access to it.</span>
+        </li>
+        <li>
+          <span lang="zh"><strong>隨時中斷連線</strong>：您可以隨時在 App 設定中關閉同步、清除 Google 帳號憑證，或在您 Google 帳戶的「安全性設定」中撤銷對「我的頭痛日記」的存取授權。</span>
+          <span lang="en"><strong>Disconnect Anytime</strong>: You can disable sync, clear sign-in credentials in App Settings, or revoke App access permissions anytime inside your Google Account's security settings page.</span>
+        </li>
+      </ul>
+
+      <!-- Section 3 -->
+      <h2>
+        <span lang="zh">3. Google API 服務資料政策合規與限制使用聲明 (Limited Use)</span>
+        <span lang="en">3. Google API Services User Data Policy Compliance (Limited Use)</span>
+      </h2>
+      <p>
+        <span lang="zh">本應用程式（我的頭痛日記）對從 Google APIs 接收到的資訊進行使用和傳輸至其他應用程式時，將嚴格遵守 <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" style="color: var(--primary-color);">Google API Services User Data Policy</a>，包括其中的<strong>限制使用要求（Limited Use Requirements）</strong>。</span>
+        <span lang="en">The App's (My Headache Diary) use and transfer to any other app of information received from Google APIs will adhere to the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" style="color: var(--primary-color);">Google API Services User Data Policy</a>, including the <strong>Limited Use requirements</strong>.</span>
+      </p>
+      <p>
+        <span lang="zh">我們絕不會將透過 Google APIs 取得的任何使用者資料用於廣告展示、販售給第三方，或任何未在條款中說明的商業營利目的。所有取得的資料僅在使用者授權後用於本地端與使用者個人雲端硬碟間的雙向備份與資料還原。</span>
+        <span lang="en">We will never use data received from Google APIs for serving advertisements, sell it to third parties, or transfer it for any commercial purposes. All data accessed is strictly used for two-way synchronization and data restore between your local device and your personal Google Drive account under your explicit authorization.</span>
+      </p>
+
+      <!-- Section 4 -->
+      <h2>
+        <span lang="zh">4. 免費、無廣告與零追蹤</span>
+        <span lang="en">4. Ad-Free & Zero Analytics Tracking</span>
+      </h2>
+      <ul>
+        <li>
+          <span lang="zh">本應用程式完全免費，且<strong>沒有嵌入任何廣告軟體開發套件 (SDK)</strong>（例如 Google AdMob 等），因此不會有任何第三方廣告商追蹤您的個人廣告 ID 或廣告偏好。</span>
+          <span lang="en">The App is completely free and **does not embed any ad SDKs** (such as Google AdMob). No third-party advertisers can track your advertising ID or preferences.</span>
+        </li>
+        <li>
+          <span lang="zh">本應用程式<strong>沒有嵌入任何第三方行為追蹤或分析工具</strong>（例如 Google Analytics, Firebase Analytics 等），我們絕不收集您的使用軌跡與統計行為。</span>
+          <span lang="en">The App **does not use any user tracking SDKs** (such as Google Analytics or Firebase). We never collect your app usage metrics or tracking events.</span>
+        </li>
+      </ul>
+
+      <!-- Section 5 -->
+      <h2>
+        <span lang="zh">5. 資料保護與個人責任</span>
+        <span lang="en">5. Data Protection & Personal Responsibility</span>
+      </h2>
+      <p>
+        <span lang="zh">由於您的頭痛日記資料完全儲存在本機裝置中：</span>
+        <span lang="en">Because your headache records are saved entirely on your device local database:</span>
+      </p>
+      <ul>
+        <li>
+          <span lang="zh">若您的裝置遺失、損毀或未經備份即進行出廠重設，本地儲存的歷史紀錄將永久無法復原。</span>
+          <span lang="en">If your device is lost, damaged, or factory-reset without a backup, your local history records will be permanently lost and cannot be recovered.</span>
+        </li>
+        <li>
+          <span lang="zh">我們強烈建議您啟用 App 內建的「Google Drive 雲端同步」或定期「手動導出 JSON 備份檔」以確保資料安全。</span>
+          <span lang="en">We strongly recommend enabling "Google Drive Cloud Sync" or exporting backups manually to ensure data safety.</span>
+        </li>
+      </ul>
+
+      <!-- Section 6 -->
+      <h2>
+        <span lang="zh">6. 隱私權政策之變更</span>
+        <span lang="en">6. Changes to this Policy</span>
+      </h2>
+      <p>
+        <span lang="zh">隨著功能的優化或法規要求，我們可能會不定期更新此隱私權政策。若有重大變更，我們會在 App 更新日誌中隨同公佈，使用者可隨時在此網頁查閱最新版本。</span>
+        <span lang="en">We may update this Privacy Policy to reflect app updates or regulatory changes. We will note changes in our release logs, and users can review updates on this page.</span>
+      </p>
+
+      <!-- Section 7 -->
+      <h2>
+        <span lang="zh">7. 聯絡我們</span>
+        <span lang="en">7. Contact Us</span>
+      </h2>
+      <p>
+        <span lang="zh">若您對本應用程式的隱私政策或資料處理有任何疑問，歡迎隨時與開發者聯絡：</span>
+        <span lang="en">If you have any questions or feedback regarding this policy, please contact us at:</span>
+      </p>
+      <p>📧 <span lang="zh">電子郵件信箱：</span><span lang="en">Email: </span><strong>kaoshou@gmail.com</strong></p>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">
+        <span lang="zh">返回首頁</span>
+        <span lang="en">Home</span>
+      </a>
+      <a href="terms.html">
+        <span lang="zh">服務條款</span>
+        <span lang="en">Terms of Service</span>
+      </a>
+    </div>
+    <div class="copyright">
+      &copy; 2026 我的頭痛日記. 保留所有權利。 / All Rights Reserved.
+    </div>
+  </footer>
+
+  <script>
+    function toggleLanguage() {
+      const body = document.body;
+      const langBtnText = document.getElementById('lang-btn-text');
+      
+      if (body.classList.contains('lang-zh')) {
+        body.classList.remove('lang-zh');
+        body.classList.add('lang-en');
+        langBtnText.innerText = '繁體中文';
+        localStorage.setItem('lang', 'en');
+      } else {
+        body.classList.remove('lang-en');
+        body.classList.add('lang-zh');
+        langBtnText.innerText = 'English';
+        localStorage.setItem('lang', 'zh');
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('lang');
+      const body = document.body;
+      const langBtnText = document.getElementById('lang-btn-text');
+
+      if (savedLang === 'en') {
+        body.classList.remove('lang-zh');
+        body.classList.add('lang-en');
+        langBtnText.innerText = '繁體中文';
+      } else {
+        body.classList.remove('lang-en');
+        body.classList.add('lang-zh');
+        langBtnText.innerText = 'English';
+      }
+    });
+  </script>
+
+</body>
+</html>
