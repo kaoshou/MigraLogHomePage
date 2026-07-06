@@ -669,25 +669,28 @@
     }
 
     .developer-avatar {
-      width: 130px;
-      height: 130px;
+      width: 110px;
+      height: 110px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 3.2rem;
-      box-shadow: 
-        0 10px 30px rgba(14, 165, 233, 0.3),
-        inset 0 0 15px rgba(255, 255, 255, 0.2);
       flex-shrink: 0;
-      color: #fff;
-      border: 3px solid rgba(255, 255, 255, 0.12);
-      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .developer-section:hover .developer-avatar {
-      transform: scale(1.06) rotate(6deg);
+      transform: scale(1.04);
+      border-color: var(--secondary-color);
+      background: rgba(45, 212, 191, 0.05);
+      box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(45, 212, 191, 0.1);
     }
 
     .developer-info {
@@ -1012,7 +1015,7 @@
         <!-- Version Badge -->
         <div class="badge">
           <span class="badge-dot"></span>
-          <span>Version 1.5.0 • Google Drive Sync</span>
+          <span>Version 1.5.1 • Google Drive Sync</span>
         </div>
         <h1 class="hero-title">
           <span lang="zh">最少點擊，<br><span>掌握偏頭痛關鍵</span></span>
@@ -1072,12 +1075,12 @@
         <div class="feature-card reveal delay-100">
           <div class="feature-icon">⌚</div>
           <h3 class="feature-title">
-            <span lang="zh">支援 Wear OS 手錶</span>
-            <span lang="en">Wear OS Smartwatch</span>
+            <span lang="zh">專屬手錶 Tile 與進階記錄</span>
+            <span lang="en">Standalone Wear OS Tile</span>
           </h3>
           <p class="feature-desc">
-            <span lang="zh">手錶端專屬獨立一鍵快捷登錄，在疼痛難忍、手邊沒拿手機時一戳即完。藍牙重新連線後，手錶紀錄會自動與手機端合併同步，並支援瀏覽本地歷史。</span>
-            <span lang="en">Equipped with a standalone Wear OS app. Tap your wrist to record the onset instantly when away from your phone. Reconnects to merge records automatically.</span>
+            <span lang="zh">支援 Wear OS 獨立手錶 App 與直覺的 Tile 資訊方塊，從錶面即可一鍵快速登錄或跳轉進階記錄（包含誘因、常用藥物與語音備註）。內建最近 7 天極簡統計面板，抬手即得近期健康趨勢。</span>
+            <span lang="en">Equipped with a standalone Wear OS app and intuitive Tiles. Tap your wrist to log instantly or enter advanced records (triggers, meds, and voice notes). Check recent 7-day stats right on your wrist at a glance.</span>
           </p>
         </div>
 
@@ -1199,12 +1202,12 @@
     <section>
       <div class="section-title-wrapper">
         <h2 class="section-title">
-          <span lang="zh">⌚ Wear OS 手錶端介面</span>
-          <span lang="en">⌚ Wear OS Watch UI</span>
+          <span lang="zh">⌚ Wear OS 手錶端與 Tile 資訊方塊</span>
+          <span lang="en">⌚ Wear OS Watch UI & Tiles</span>
         </h2>
         <p class="section-subtitle">
-          <span lang="zh">手腕上的即時快捷記錄與歷史查閱</span>
-          <span lang="en">Wrist-based instant entry and logs history at a glance</span>
+          <span lang="zh">新增高質感 Tile 一鍵快捷登錄，提供病歷進階選項勾選與最近 7 天極簡統計面板</span>
+          <span lang="en">Introducing Tile quick launch, advanced medical records entry, and 7-day stats summary on your wrist</span>
         </p>
       </div>
 
@@ -1216,7 +1219,7 @@
           </div>
           <div class="screenshot-label">
             <span lang="zh">1. 快捷登錄首頁</span>
-            <span lang="en">1. Watch Home</span>
+            <span lang="en">1. Standalone Watch Home</span>
           </div>
         </div>
 
@@ -1226,8 +1229,8 @@
             <img src="screenshot_watch_log.png" alt="Watch Log Form">
           </div>
           <div class="screenshot-label">
-            <span lang="zh">2. 痛感與症狀登錄</span>
-            <span lang="en">2. Log Attack</span>
+            <span lang="zh">2. 進階選項設定</span>
+            <span lang="en">2. Advanced Entry Form</span>
           </div>
         </div>
 
@@ -1237,8 +1240,8 @@
             <img src="screenshot_watch_history.png" alt="Watch Logs List">
           </div>
           <div class="screenshot-label">
-            <span lang="zh">3. 本地歷史紀錄</span>
-            <span lang="en">3. Watch History</span>
+            <span lang="zh">3. 最近 7 天極簡統計</span>
+            <span lang="en">3. 7-Day Stats Summary</span>
           </div>
         </div>
 
@@ -1248,8 +1251,8 @@
             <img src="screenshot_watch_detail.png" alt="Watch Log Detail">
           </div>
           <div class="screenshot-label">
-            <span lang="zh">4. 紀錄詳細資訊</span>
-            <span lang="en">4. Log Details</span>
+            <span lang="zh">4. Tile 資訊方塊 (防誤觸)</span>
+            <span lang="en">4. Tile Quick Launcher (Anti-misclick)</span>
           </div>
         </div>
       </div>
@@ -1257,7 +1260,9 @@
 
     <!-- Developer Info Section -->
     <section class="developer-section reveal">
-      <div class="developer-avatar">👨‍💻</div>
+      <div class="developer-avatar">
+        <svg class="dev-svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color: var(--secondary-color);"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
+      </div>
       <div class="developer-info">
         <div class="developer-badge">
           <span lang="zh">獨立開發者</span>
