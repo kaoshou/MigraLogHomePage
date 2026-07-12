@@ -1,13 +1,36 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>我的頭痛日記 - 最少點擊、最大價值的偏頭痛紀錄助手</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="《我的頭痛日記》專為偏頭痛患者設計的極簡追蹤日記。支援一鍵快捷記錄與手錶端獨立運作，自動進行個人 Google Drive 同步，保護隱私無伺服器中轉，助您分析誘因與用藥並提供看診參考。">
+  <meta name="keywords" content="偏頭痛, 頭痛日記, 頭痛記錄, 偏頭痛追蹤, 偏頭痛App, Wear OS 頭痛記錄, Google Drive 同步, 偏頭痛誘因分析">
+  <link rel="canonical" href="https://migralog.yuhan.tw/">
+
+  <!-- Open Graph / Facebook Meta Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://migralog.yuhan.tw/">
+  <meta property="og:title" content="我的頭痛日記 - 最少點擊、最大價值的偏頭痛紀錄助手">
+  <meta property="og:description" content="一鍵極速登錄發作，支援 Wear OS 獨立手錶 App 與桌面 Widget，個人 Google Drive 備份保障隱私，輕鬆生成 PDF 排版報告供就診輔助參考。">
+  <meta property="og:image" content="https://migralog.yuhan.tw/logo.png">
+
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:url" content="https://migralog.yuhan.tw/">
+  <meta name="twitter:title" content="我的頭痛日記 - 最少點擊、最大價值的偏頭痛紀錄助手">
+  <meta name="twitter:description" content="一鍵極速登錄發作，支援 Wear OS 獨立手錶 App 與桌面 Widget，個人 Google Drive 備份保障隱私，輕鬆生成 PDF 排版報告供就診輔助參考。">
+  <meta name="twitter:image" content="https://migralog.yuhan.tw/logo.png">
+
   <link rel="icon" href="logo.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap"
+    rel="stylesheet">
   <style>
     :root {
       --bg-color: #0b0f19;
@@ -38,14 +61,17 @@
       line-height: 1.7;
       overflow-x: hidden;
       position: relative;
-      padding-top: 110px; /* 避免主內容被固定 Header 遮擋 */
+      padding-top: 110px;
+      /* 避免主內容被固定 Header 遮擋 */
     }
 
     /* Spatial Flow Background Blobs */
     .bg-blob-container {
       position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       z-index: -2;
       overflow: hidden;
       pointer-events: none;
@@ -63,31 +89,43 @@
 
     .blob-1 {
       background: var(--primary-color);
-      top: -10%; left: -5%;
+      top: -10%;
+      left: -5%;
     }
 
     .blob-2 {
       background: var(--secondary-color);
-      bottom: 10%; right: -10%;
+      bottom: 10%;
+      right: -10%;
       animation-delay: -7s;
     }
 
     .blob-3 {
       background: var(--accent-color);
-      top: 40%; left: 35%;
+      top: 40%;
+      left: 35%;
       animation-delay: -14s;
     }
 
     @keyframes floatBlob {
-      0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-      50% { transform: translate(80px, 50px) scale(1.15) rotate(180deg); }
-      100% { transform: translate(-40px, 120px) scale(0.9) rotate(360deg); }
+      0% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+      }
+
+      50% {
+        transform: translate(80px, 50px) scale(1.15) rotate(180deg);
+      }
+
+      100% {
+        transform: translate(-40px, 120px) scale(0.9) rotate(360deg);
+      }
     }
 
     /* Bilingual Toggle CSS */
     body.lang-zh [lang="en"] {
       display: none !important;
     }
+
     body.lang-en [lang="zh"] {
       display: none !important;
     }
@@ -95,7 +133,9 @@
     /* Header Nav */
     header {
       position: fixed;
-      top: 0; left: 0; right: 0;
+      top: 0;
+      left: 0;
+      right: 0;
       z-index: 1000;
       padding: 2.2rem 2rem;
       transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -169,8 +209,10 @@
     .nav-links a::after {
       content: '';
       position: absolute;
-      bottom: 0; left: 0;
-      width: 0; height: 2px;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
       background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
       transition: width 0.3s;
     }
@@ -339,7 +381,7 @@
       background: #090d16;
       border-radius: 44px;
       border: 13px solid #1e293b;
-      box-shadow: 
+      box-shadow:
         0 25px 60px -15px rgba(0, 0, 0, 0.8),
         0 0 50px rgba(14, 165, 233, 0.15);
       position: relative;
@@ -350,7 +392,7 @@
 
     .phone-mockup:hover {
       transform: rotateY(-12deg) rotateX(7deg) scale(1.03);
-      box-shadow: 
+      box-shadow:
         -15px 25px 60px rgba(0, 0, 0, 0.85),
         15px -10px 40px rgba(14, 165, 233, 0.2),
         0 0 60px rgba(45, 212, 191, 0.25);
@@ -360,9 +402,11 @@
     .phone-mockup::before {
       content: '';
       position: absolute;
-      top: 0; left: 0;
-      width: 250%; height: 100%;
-      background: linear-gradient(115deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 30%, transparent 60%);
+      top: 0;
+      left: 0;
+      width: 250%;
+      height: 100%;
+      background: linear-gradient(115deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 30%, transparent 60%);
       transform: skewX(-25deg);
       pointer-events: none;
       z-index: 5;
@@ -377,7 +421,8 @@
     .phone-mockup::after {
       content: '';
       position: absolute;
-      top: 0; left: 50%;
+      top: 0;
+      left: 50%;
       transform: translateX(-50%);
       width: 100px;
       height: 18px;
@@ -436,9 +481,11 @@
     .feature-card::before {
       content: '';
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: radial-gradient(circle at 10% 10%, rgba(255,255,255,0.03) 0%, transparent 50%);
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 10% 10%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
       pointer-events: none;
     }
 
@@ -446,7 +493,7 @@
       transform: translateY(-8px);
       background: rgba(15, 23, 42, 0.75);
       border-color: rgba(45, 212, 191, 0.35);
-      box-shadow: 
+      box-shadow:
         0 20px 45px rgba(0, 0, 0, 0.4),
         0 0 30px rgba(45, 212, 191, 0.1);
     }
@@ -502,14 +549,14 @@
       transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
       cursor: pointer;
       backdrop-filter: blur(10px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
     }
 
     .screenshot-card:hover {
       transform: translateY(-8px);
       border-color: var(--secondary-color);
       background: rgba(15, 23, 42, 0.8);
-      box-shadow: 
+      box-shadow:
         0 20px 40px rgba(0, 0, 0, 0.5),
         0 0 25px rgba(45, 212, 191, 0.15);
     }
@@ -521,8 +568,8 @@
       aspect-ratio: 9 / 19.5;
       background: #090d16;
       margin-bottom: 1rem;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-      border: 1px solid rgba(255,255,255,0.03);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.03);
     }
 
     .screenshot-wrapper img {
@@ -550,7 +597,7 @@
       background: #000;
       border-radius: 50%;
       border: 8px solid #334155;
-      box-shadow: 
+      box-shadow:
         0 12px 30px rgba(0, 0, 0, 0.6),
         0 0 0 4px #1e293b;
       position: relative;
@@ -572,14 +619,14 @@
       background: #475569;
       border-radius: 3px;
       z-index: 10;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.4);
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.4);
       border: 1px solid #64748b;
     }
 
     .screenshot-card:hover .watch-mockup {
       transform: scale(1.06);
       border-color: var(--secondary-color);
-      box-shadow: 
+      box-shadow:
         0 15px 35px rgba(0, 0, 0, 0.7),
         0 0 0 4px var(--secondary-color),
         0 0 25px rgba(45, 212, 191, 0.3);
@@ -601,8 +648,10 @@
       display: none;
       position: fixed;
       z-index: 1000;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       background: rgba(7, 10, 17, 0.96);
       backdrop-filter: blur(12px);
       align-items: center;
@@ -619,13 +668,20 @@
       max-width: 90vw;
       border-radius: 28px;
       border: 4px solid #1e293b;
-      box-shadow: 0 30px 70px rgba(0,0,0,0.8);
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.8);
       animation: zoomIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     @keyframes zoomIn {
-      from { transform: scale(0.92); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
+      from {
+        transform: scale(0.92);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
     }
 
     /* Developer Profile Section */
@@ -638,7 +694,7 @@
       padding: 4rem 3.5rem;
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      box-shadow: 
+      box-shadow:
         0 20px 50px rgba(0, 0, 0, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
       display: flex;
@@ -652,8 +708,10 @@
     .developer-section::before {
       content: '';
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background: radial-gradient(circle at 100% 0%, rgba(45, 212, 191, 0.08) 0%, transparent 60%);
       pointer-events: none;
       border-radius: 32px;
@@ -662,7 +720,7 @@
     .developer-section:hover {
       border-color: rgba(45, 212, 191, 0.25);
       transform: translateY(-2px);
-      box-shadow: 
+      box-shadow:
         0 30px 60px rgba(0, 0, 0, 0.5),
         0 0 40px rgba(45, 212, 191, 0.08),
         inset 0 1px 0 rgba(255, 255, 255, 0.15);
@@ -678,7 +736,7 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      box-shadow: 
+      box-shadow:
         0 15px 35px rgba(0, 0, 0, 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.05);
       transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -688,7 +746,7 @@
       transform: scale(1.04);
       border-color: var(--secondary-color);
       background: rgba(45, 212, 191, 0.05);
-      box-shadow: 
+      box-shadow:
         0 15px 35px rgba(0, 0, 0, 0.4),
         0 0 20px rgba(45, 212, 191, 0.1);
     }
@@ -732,7 +790,7 @@
       letter-spacing: 0.5px;
       margin-bottom: 1.25rem;
     }
-    
+
     .developer-title strong {
       color: var(--secondary-color);
       font-weight: 700;
@@ -766,7 +824,7 @@
       color: #0b0f19;
       border-color: transparent;
       background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      box-shadow: 
+      box-shadow:
         0 8px 25px rgba(14, 165, 233, 0.4),
         0 0 15px rgba(45, 212, 191, 0.2);
       transform: translateY(-2px);
@@ -824,6 +882,7 @@
       .features {
         grid-template-columns: repeat(2, 1fr);
       }
+
       .screenshots-grid {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -833,39 +892,49 @@
       .features {
         grid-template-columns: 1fr;
       }
+
       .hero {
         flex-direction: column;
         text-align: center;
         gap: 3rem;
       }
+
       .hero-title {
         font-size: 2.8rem;
       }
+
       .btn-group {
         justify-content: center;
       }
+
       header {
         padding: 1.2rem 1.5rem;
       }
+
       header.scrolled {
         padding: 0.8rem 1.5rem;
       }
+
       .header-container {
         flex-direction: column;
         gap: 0.8rem;
         align-items: center;
       }
+
       .logo-container {
         gap: 0.6rem;
       }
+
       .logo-img {
         width: 36px;
         height: 36px;
         border-radius: 8px;
       }
+
       .logo-text {
         font-size: 1.25rem;
       }
+
       .header-right {
         flex-direction: row;
         gap: 1.25rem;
@@ -873,23 +942,28 @@
         justify-content: center;
         width: 100%;
       }
+
       .nav-links {
         gap: 1.25rem;
       }
+
       .lang-btn {
         padding: 0.45rem 0.9rem;
         font-size: 0.8rem;
       }
+
       .footer-content {
         flex-direction: column;
         text-align: center;
         gap: 1.5rem;
       }
+
       .screenshots-grid {
         grid-template-columns: 1fr;
         max-width: 310px;
         margin: 0 auto;
       }
+
       .developer-section {
         flex-direction: column;
         text-align: center;
@@ -897,17 +971,21 @@
         gap: 2rem;
         margin: 6rem 1rem 2rem;
       }
+
       .developer-avatar {
         width: 110px;
         height: 110px;
         font-size: 2.5rem;
       }
+
       .developer-info {
         align-items: center;
       }
+
       .developer-bio {
         text-align: center;
       }
+
       .developer-contact {
         justify-content: center;
         width: 100%;
@@ -924,23 +1002,28 @@
         flex-direction: row;
         text-align: left;
       }
+
       .developer-avatar {
         width: 90px;
         height: 90px;
         font-size: 2.2rem;
       }
+
       .developer-info {
         align-items: flex-start;
       }
+
       .developer-badge {
         margin-bottom: 0.5rem;
       }
+
       .developer-bio {
         margin-bottom: 1.25rem;
         font-size: 0.92rem;
         line-height: 1.7;
         text-align: justify;
       }
+
       .developer-contact {
         padding: 0.6rem 1.4rem;
         width: auto;
@@ -949,8 +1032,17 @@
     }
 
     @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.2); opacity: 0.6; }
+
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      50% {
+        transform: scale(1.2);
+        opacity: 0.6;
+      }
     }
 
     /* Scroll Reveal Animation */
@@ -966,12 +1058,116 @@
       transform: translateY(0);
     }
 
-    .delay-100 { transition-delay: 100ms; }
-    .delay-200 { transition-delay: 200ms; }
-    .delay-300 { transition-delay: 300ms; }
-    .delay-400 { transition-delay: 400ms; }
+    .delay-100 {
+      transition-delay: 100ms;
+    }
+
+    .delay-200 {
+      transition-delay: 200ms;
+    }
+
+    .delay-300 {
+      transition-delay: 300ms;
+    }
+
+    .delay-400 {
+      transition-delay: 400ms;
+    }
+
+    /* Why Diary Section Styling */
+    .why-diary-section {
+      padding: 6rem 2rem;
+      position: relative;
+      z-index: 5;
+    }
+
+    .why-diary-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 5rem;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 32px;
+      padding: 4rem;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    .why-diary-visual {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .diary-concept-img {
+      width: 100%;
+      max-width: 440px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: transform 0.5s ease;
+    }
+
+    .diary-concept-img:hover {
+      transform: translateY(-5px);
+    }
+
+    .why-diary-content {
+      flex: 1.2;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .why-diary-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, #fff 30%, var(--text-muted) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -1px;
+    }
+
+    .why-diary-text {
+      color: var(--text-body);
+      font-size: 1.05rem;
+      line-height: 1.85;
+      margin-bottom: 2rem;
+      text-align: justify;
+    }
+
+    .why-diary-action {
+      display: flex;
+    }
+
+    @media (max-width: 992px) {
+      .why-diary-container {
+        flex-direction: column;
+        gap: 3rem;
+        padding: 3rem 2rem;
+      }
+      .why-diary-content {
+        align-items: center;
+        text-align: center;
+      }
+      .why-diary-title {
+        font-size: 1.85rem;
+      }
+      .why-diary-text {
+        text-align: center;
+      }
+      .why-diary-action {
+        width: 100%;
+        justify-content: center;
+      }
+    }
   </style>
 </head>
+
 <body class="lang-zh">
 
   <!-- Spatial Background Blobs -->
@@ -992,6 +1188,14 @@
       </div>
       <div class="header-right">
         <nav class="nav-links">
+          <a class="active" href="index.html">
+            <span lang="zh">首頁</span>
+            <span lang="en">Home</span>
+          </a>
+          <a href="about_migraine.html">
+            <span lang="zh">關於偏頭痛</span>
+            <span lang="en">About Migraine</span>
+          </a>
           <a href="privacy.html">
             <span lang="zh">隱私權政策</span>
             <span lang="en">Privacy Policy</span>
@@ -1022,11 +1226,15 @@
           <span lang="en">Minimal Clicks,<br><span>Max Headache Value</span></span>
         </h1>
         <p class="hero-subtitle">
-          <span lang="zh">專為偏頭痛患者設計的極簡追蹤日記。首創一鍵快捷記錄與手錶端獨立運作，自動進行無伺服器 (Serverless) 的個人 Google Drive 加密同步。智慧交叉分析誘因與有效藥物，為您的就診提供最精準的臨床參考。</span>
-          <span lang="en">An ultra-minimalist tracker designed for migraine sufferers. Log attacks instantly with a single click or directly via your smartwatch. Enjoy direct, serverless Google Drive encryption sync. Automatically aggregate triggers and medications to provide precise insights for your doctor.</span>
+          <span lang="zh">專為偏頭痛患者設計的極簡追蹤日記。首創一鍵快捷記錄與手錶端獨立運作，自動進行無伺服器 (Serverless) 的個人 Google Drive
+            加密同步。智慧交叉分析誘因與有效藥物，為您的就診提供最精準的臨床參考。</span>
+          <span lang="en">An ultra-minimalist tracker designed for migraine sufferers. Log attacks instantly with a
+            single click or directly via your smartwatch. Enjoy direct, serverless Google Drive encryption sync.
+            Automatically aggregate triggers and medications to provide precise insights for your doctor.</span>
         </p>
         <div class="btn-group">
-          <a href="https://play.google.com/store/apps/details?id=tw.yuhan.migralog" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+          <a href="https://play.google.com/store/apps/details?id=tw.yuhan.migralog" class="btn btn-primary"
+            target="_blank" rel="noopener noreferrer">
             <span lang="zh">📥 Google Play 下載</span>
             <span lang="en">📥 Get it on Google Play</span>
           </a>
@@ -1040,6 +1248,31 @@
       <div class="hero-visual">
         <div class="phone-mockup">
           <img src="screenshot_home.jpg" alt="MigraLog App Home Screen">
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Diary Section -->
+    <section class="why-diary-section reveal">
+      <div class="why-diary-container">
+        <div class="why-diary-visual">
+          <img src="migraine_diary_illustration.png" alt="Headache Diary Concept Illustration" class="diary-concept-img">
+        </div>
+        <div class="why-diary-content">
+          <h2 class="why-diary-title">
+            <span lang="zh">💡 為什麼你需要「頭痛日記」？</span>
+            <span lang="en">💡 Why Keep a Headache Diary?</span>
+          </h2>
+          <p class="why-diary-text">
+            <span lang="zh">偏頭痛是全球第二大失能原因，雖然目前醫學仍無法根治，但我們能藉由記錄來管理它。仔細記錄每一筆發作日誌，是醫師客觀評估藥效、調整防護用藥，以及防範「藥物過度使用性頭痛（MOH）」的黃金指南。更重要的是，找出自己專屬的誘發規律，能幫助我們有效避開觸發因子，主導健康，大幅提升生活與工作品質。</span>
+            <span lang="en">Migraine is the second leading cause of disability worldwide. While there is no cure, keeping a headache diary is the gold standard for doctors to tailor preventative therapies and avoid Medication Overuse Headaches (MOH). More importantly, mapping your personal triggers helps you avoid them, drastically improving your quality of life.</span>
+          </p>
+          <div class="why-diary-action">
+            <a href="about_migraine.html" class="btn btn-secondary">
+              <span lang="zh">📖 閱讀偏頭痛科普與開發心路歷程 ➔</span>
+              <span lang="en">📖 Read Migraine Science & Dev Story ➔</span>
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -1067,7 +1300,8 @@
           </h3>
           <p class="feature-desc">
             <span lang="zh">發作當下無須面對手機刺眼螢幕填寫繁瑣欄位。只需輕觸 App 醒目的一鍵快捷大按鈕，即可瞬間登錄發作，等稍後休息完畢再行補充完整細節。</span>
-            <span lang="en">No eye-straining forms when an attack strikes. Log the event instantly with one tap on the prominent button, and easily supplement details after resting.</span>
+            <span lang="en">No eye-straining forms when an attack strikes. Log the event instantly with one tap on the
+              prominent button, and easily supplement details after resting.</span>
           </p>
         </div>
 
@@ -1079,8 +1313,11 @@
             <span lang="en">Standalone Wear OS Tile</span>
           </h3>
           <p class="feature-desc">
-            <span lang="zh">支援 Wear OS 獨立手錶 App 與直覺的 Tile 資訊方塊，從錶面即可一鍵快速登錄或跳轉進階記錄（包含誘因、常用藥物與語音備註）。內建最近 7 天極簡統計面板，抬手即得近期健康趨勢。</span>
-            <span lang="en">Equipped with a standalone Wear OS app and intuitive Tiles. Tap your wrist to log instantly or enter advanced records (triggers, meds, and voice notes). Check recent 7-day stats right on your wrist at a glance.</span>
+            <span lang="zh">支援 Wear OS 獨立手錶 App 與直覺的 Tile 資訊方塊，從錶面即可一鍵快速登錄或跳轉進階記錄（包含誘因、常用藥物與語音備註）。內建最近 7
+              天極簡統計面板，抬手即得近期健康趨勢。</span>
+            <span lang="en">Equipped with a standalone Wear OS app and intuitive Tiles. Tap your wrist to log instantly
+              or enter advanced records (triggers, meds, and voice notes). Check recent 7-day stats right on your wrist
+              at a glance.</span>
           </p>
         </div>
 
@@ -1093,7 +1330,8 @@
           </h3>
           <p class="feature-desc">
             <span lang="zh">採用本地優先儲存。若啟用「Google Drive 同步」，手機直接以加密通道連線您個人的雲端硬碟 AppData 專屬資料夾，無伺服器中轉，完全保障您的隱私。</span>
-            <span lang="en">Local-first architecture with zero third-party tracking SDKs. Direct serverless backup connects your device straight to your personal Google Drive AppData folder.</span>
+            <span lang="en">Local-first architecture with zero third-party tracking SDKs. Direct serverless backup
+              connects your device straight to your personal Google Drive AppData folder.</span>
           </p>
         </div>
 
@@ -1105,8 +1343,9 @@
             <span lang="en">Smart Charts & Stats</span>
           </h3>
           <p class="feature-desc">
-            <span lang="zh">自動整理出痛感嚴重度、發作次數以及月曆趨勢圖表。以清晰直觀的數據面板呈现，讓您輕鬆掌握近期頭痛起伏規律與可能誘發因素。</span>
-            <span lang="en">Automatically aggregates pain intensities, frequencies, and calendar trends. View beautiful visualizations on your dashboard to spot trigger patterns.</span>
+            <span lang="zh">自動整理出痛感嚴重度、發作次數以及月曆趨勢圖表。以清晰直觀的數據面板呈現，讓您輕鬆掌握近期頭痛起伏規律與可能誘發因素。</span>
+            <span lang="en">Automatically aggregates pain intensities, frequencies, and calendar trends. View beautiful
+              visualizations on your dashboard to spot trigger patterns.</span>
           </p>
         </div>
 
@@ -1119,7 +1358,8 @@
           </h3>
           <p class="feature-desc">
             <span lang="zh">支持將歷史記錄一鍵匯出為精美排版的 PDF 日誌報告或標準 CSV 數據表格。您可以方便地將其貼入個人筆記，或直接在診間提供給就診醫師進行評估。</span>
-            <span lang="en">Export logs into professionally formatted PDF reports or standard CSV tables in one click. Easy to print, save to notes, or share with your physician.</span>
+            <span lang="en">Export logs into professionally formatted PDF reports or standard CSV tables in one click.
+              Easy to print, save to notes, or share with your physician.</span>
           </p>
         </div>
 
@@ -1132,7 +1372,8 @@
           </h3>
           <p class="feature-desc">
             <span lang="zh">提供實用的 Android 桌面 Widget 小工具，讓您免打開 App 就能從桌面一鍵快速登錄。支持自定義常備藥物清單與多國語言，完美契合您的個人習慣。</span>
-            <span lang="en">Quickly log headaches directly from your Android home screen via desktop widgets. Custom lists for drugs and full translation support match your daily routines.</span>
+            <span lang="en">Quickly log headaches directly from your Android home screen via desktop widgets. Custom
+              lists for drugs and full translation support match your daily routines.</span>
           </p>
         </div>
       </div>
@@ -1207,14 +1448,17 @@
         </h2>
         <p class="section-subtitle">
           <span lang="zh">一鍵產生排版精美的頭痛日誌報告，方便列印或於就診時提供給醫師做為輔助參考</span>
-          <span lang="en">Export beautifully formatted migraine log reports in one click, convenient to print and share with your doctor for reference</span>
+          <span lang="en">Export beautifully formatted migraine log reports in one click, convenient to print and share
+            with your doctor for reference</span>
         </p>
       </div>
 
       <div style="max-width: 500px; margin: 0 auto;">
         <div class="screenshot-card" onclick="openLightbox('screenshot_pdf.png')">
-          <div style="width: 100%; border-radius: 20px; overflow: hidden; background: #ffffff; margin-bottom: 1.25rem; box-shadow: 0 15px 40px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.06); aspect-ratio: 1 / 1.414;">
-            <img src="screenshot_pdf.png" alt="PDF Report Showcase" style="width: 100%; height: 100%; object-fit: cover;">
+          <div
+            style="width: 100%; border-radius: 20px; overflow: hidden; background: #ffffff; margin-bottom: 1.25rem; box-shadow: 0 15px 40px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.06); aspect-ratio: 1 / 1.414;">
+            <img src="screenshot_pdf.png" alt="PDF Report Showcase"
+              style="width: 100%; height: 100%; object-fit: cover;">
           </div>
           <div class="screenshot-label">
             <span lang="zh">發作日誌 PDF 範例 (點擊放大)</span>
@@ -1233,13 +1477,16 @@
         </h2>
         <p class="section-subtitle">
           <span lang="zh">新增高質感 Tile 一鍵快捷登錄，提供病歷進階選項勾選與最近 7 天極簡統計面板</span>
-          <span lang="en">Introducing Tile quick launch, advanced medical records entry, and 7-day stats summary on your wrist</span>
+          <span lang="en">Introducing Tile quick launch, advanced medical records entry, and 7-day stats summary on your
+            wrist</span>
         </p>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; justify-items: center; margin-top: 2rem;">
+      <div
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; justify-items: center; margin-top: 2rem;">
         <!-- Watch Screenshot 1 -->
-        <div class="screenshot-card reveal" style="max-width: 220px;" onclick="openLightbox('screenshot_watch_home.png')">
+        <div class="screenshot-card reveal" style="max-width: 220px;"
+          onclick="openLightbox('screenshot_watch_home.png')">
           <div class="watch-mockup">
             <img src="screenshot_watch_home.png" alt="Watch Main Screen">
           </div>
@@ -1250,7 +1497,8 @@
         </div>
 
         <!-- Watch Screenshot 2 -->
-        <div class="screenshot-card reveal delay-100" style="max-width: 220px;" onclick="openLightbox('screenshot_watch_log.png')">
+        <div class="screenshot-card reveal delay-100" style="max-width: 220px;"
+          onclick="openLightbox('screenshot_watch_log.png')">
           <div class="watch-mockup">
             <img src="screenshot_watch_log.png" alt="Watch Log Form">
           </div>
@@ -1261,7 +1509,8 @@
         </div>
 
         <!-- Watch Screenshot 3 -->
-        <div class="screenshot-card reveal delay-200" style="max-width: 220px;" onclick="openLightbox('screenshot_watch_history.png')">
+        <div class="screenshot-card reveal delay-200" style="max-width: 220px;"
+          onclick="openLightbox('screenshot_watch_history.png')">
           <div class="watch-mockup">
             <img src="screenshot_watch_history.png" alt="Watch Logs List">
           </div>
@@ -1272,7 +1521,8 @@
         </div>
 
         <!-- Watch Screenshot 4 -->
-        <div class="screenshot-card reveal delay-300" style="max-width: 220px;" onclick="openLightbox('screenshot_watch_detail.png')">
+        <div class="screenshot-card reveal delay-300" style="max-width: 220px;"
+          onclick="openLightbox('screenshot_watch_detail.png')">
           <div class="watch-mockup">
             <img src="screenshot_watch_detail.png" alt="Watch Log Detail">
           </div>
@@ -1284,10 +1534,39 @@
       </div>
     </section>
 
+    <!-- Research & Collaboration Section -->
+    <section class="reveal">
+      <div class="section-title-wrapper">
+        <h2 class="section-title">
+          <span lang="zh">🔬 學術與醫療研究合作</span>
+          <span lang="en">🔬 Research & Clinical Collaboration</span>
+        </h2>
+        <p class="section-subtitle">
+          <span lang="zh">攜手探索偏頭痛醫學，共同推動臨床與學術專案研究</span>
+          <span lang="en">Partnering to advance migraine research and support clinical academic studies</span>
+        </p>
+      </div>
+
+      <div style="max-width: 800px; margin: 0 auto; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 28px; padding: 2.5rem; backdrop-filter: blur(20px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); text-align: center;">
+        <p style="color: var(--text-body); font-size: 1.05rem; line-height: 1.85; margin-bottom: 2rem;">
+          <span lang="zh">《我的頭痛日記》歡迎與學術機構或醫療單位進行學術研究、臨床試驗等專案合作。<br>若有相關合作提案，非常歡迎您透過電子郵件與開發者聯絡。</span>
+          <span lang="en">We welcome academic institutions and medical organizations for academic research and clinical study collaborations.<br>For partnership proposals, please feel free to contact the developer via email.</span>
+        </p>
+        <a href="mailto:kaoshou@gmail.com?subject=MigraLog%20Research%20Collaboration" class="developer-contact" style="display: inline-flex; justify-content: center; align-items: center; gap: 0.75rem;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"/></svg>
+          <span lang="zh">學術/醫療合作提案 (kaoshou@gmail.com)</span>
+          <span lang="en">Research Proposal (kaoshou@gmail.com)</span>
+        </a>
+      </div>
+    </section>
+
     <!-- Developer Info Section -->
     <section class="developer-section reveal">
       <div class="developer-avatar">
-        <svg class="dev-svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color: var(--secondary-color);"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
+        <svg class="dev-svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color: var(--secondary-color);">
+          <path d="M16 18l6-6-6-6M8 6l-6 6 6 6" />
+        </svg>
       </div>
       <div class="developer-info">
         <div class="developer-badge">
@@ -1303,11 +1582,19 @@
           <span lang="en">Created by <strong>Yu-Han Cheng</strong></span>
         </div>
         <p class="developer-bio">
-          <span lang="zh">身為受偏頭痛所苦的開發者，我深刻理解每一次發作帶來的痛苦與不便。因此，我以「最少點擊、最大價值」為核心打造了這款「完全本機儲存、零外部追蹤」的健康管理工具。希望能為您提供最純粹、最安全的偏頭痛紀錄體驗，並在您就診諮詢時提供真正有價值的診斷參考。</span>
-          <span lang="en">As a developer who personally battles chronic migraines, I understand the pain and frustration each attack brings. This motivated me to build this utility under the philosophy of "minimal clicks, maximum value, and absolute privacy" with zero tracking. I hope it helps you manage your symptoms effortlessly and provide meaningful references for your next doctor's visit.</span>
+          <span
+            lang="zh">身為受偏頭痛所苦的開發者，我深刻理解每一次發作帶來的痛苦與不便。因此，我以「最少點擊、最大價值」為核心打造了這款「完全本機儲存、零外部追蹤」的健康管理工具。希望能為您提供最純粹、最安全的偏頭痛紀錄體驗，並在您就診諮詢時提供真正有價值的診斷參考。</span>
+          <span lang="en">As a developer who personally battles chronic migraines, I understand the pain and frustration
+            each attack brings. This motivated me to build this utility under the philosophy of "minimal clicks, maximum
+            value, and absolute privacy" with zero tracking. I hope it helps you manage your symptoms effortlessly and
+            provide meaningful references for your next doctor's visit.</span>
         </p>
         <a href="mailto:kaoshou@gmail.com" class="developer-contact">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect width="20" height="16" x="2" y="4" rx="2" />
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+          </svg>
           <span lang="zh">聯絡開發者 (kaoshou@gmail.com)</span>
           <span lang="en">Contact Developer (kaoshou@gmail.com)</span>
         </a>
@@ -1326,6 +1613,14 @@
         &copy; 2026 我的頭痛日記. 保留所有權利。 / All Rights Reserved.
       </div>
       <div class="footer-links">
+        <a href="index.html">
+          <span lang="zh">首頁</span>
+          <span lang="en">Home</span>
+        </a>
+        <a href="about_migraine.html">
+          <span lang="zh">關於偏頭痛</span>
+          <span lang="en">About Migraine</span>
+        </a>
         <a href="privacy.html">
           <span lang="zh">隱私權政策</span>
           <span lang="en">Privacy Policy</span>
@@ -1343,7 +1638,7 @@
     function toggleLanguage() {
       const body = document.body;
       const langBtnText = document.getElementById('lang-btn-text');
-      
+
       if (body.classList.contains('lang-zh')) {
         body.classList.remove('lang-zh');
         body.classList.add('lang-en');
@@ -1415,4 +1710,5 @@
   </script>
 
 </body>
+
 </html>

@@ -94,14 +94,14 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 1000;
-      padding: 1.8rem 2rem;
+      padding: 2.2rem 2rem;
       transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       background: transparent;
       border-bottom: 1px solid transparent;
     }
 
     .header-container {
-      max-width: 1000px;
+      max-width: 1200px;
       margin: 0 auto;
       width: 100%;
       display: flex;
@@ -110,8 +110,8 @@
     }
 
     header.scrolled {
-      padding: 0.8rem 2rem;
-      background: rgba(15, 23, 42, 0.75);
+      padding: 0.9rem 2rem;
+      background: rgba(11, 15, 25, 0.75);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.06);
@@ -121,58 +121,88 @@
     .logo-container {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 1rem;
       text-decoration: none;
     }
 
     .logo-img {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(14, 165, 233, 0.4);
       object-fit: cover;
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .logo-text {
-      font-size: 1.25rem;
-      font-weight: 800;
-      color: #fff;
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #ffffff 40%, var(--text-body) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .header-right {
       display: flex;
       align-items: center;
-      gap: 1.5rem;
+      gap: 2rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
     }
 
     .nav-links a {
-      color: var(--text-muted);
+      color: var(--text-body);
       text-decoration: none;
       font-size: 0.95rem;
-      transition: color 0.3s;
+      font-weight: 500;
+      transition: all 0.3s;
+      position: relative;
+      padding: 0.25rem 0;
     }
 
-    .nav-links a:hover {
-      color: var(--primary-color);
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 2px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: #fff;
+    }
+
+    .nav-links a:hover::after, .nav-links a.active::after {
+      width: 100%;
     }
 
     .lang-btn {
-      background: var(--glass-bg);
+      background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--glass-border);
-      color: var(--text-color);
-      padding: 0.4rem 0.8rem;
-      border-radius: 6px;
+      color: var(--text-body);
+      padding: 0.6rem 1.2rem;
+      border-radius: 30px;
       font-weight: 600;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 0.5rem;
       transition: all 0.3s;
+      backdrop-filter: blur(10px);
     }
 
     .lang-btn:hover {
       border-color: var(--primary-color);
+      color: #fff;
+      background: rgba(14, 165, 233, 0.1);
+      box-shadow: 0 0 15px rgba(14, 165, 233, 0.25);
+      transform: translateY(-1px);
     }
 
     main {
@@ -359,8 +389,20 @@
       <div class="header-right">
         <nav class="nav-links">
           <a href="index.html">
-            <span lang="zh">返回首頁</span>
+            <span lang="zh">首頁</span>
             <span lang="en">Home</span>
+          </a>
+          <a href="about_migraine.html">
+            <span lang="zh">關於偏頭痛</span>
+            <span lang="en">About Migraine</span>
+          </a>
+          <a href="privacy.html">
+            <span lang="zh">隱私權政策</span>
+            <span lang="en">Privacy Policy</span>
+          </a>
+          <a class="active" href="terms.html">
+            <span lang="zh">服務條款</span>
+            <span lang="en">Terms of Service</span>
           </a>
         </nav>
         <button class="lang-btn" onclick="toggleLanguage()">
@@ -502,16 +544,24 @@
   </main>
 
   <footer>
-    <div class="footer-links">
-      <a href="index.html">
-        <span lang="zh">返回首頁</span>
-        <span lang="en">Home</span>
-      </a>
-      <a href="privacy.html">
-        <span lang="zh">隱私權政策</span>
-        <span lang="en">Privacy Policy</span>
-      </a>
-    </div>
+      <div class="footer-links">
+        <a href="index.html">
+          <span lang="zh">首頁</span>
+          <span lang="en">Home</span>
+        </a>
+        <a href="about_migraine.html">
+          <span lang="zh">關於偏頭痛</span>
+          <span lang="en">About Migraine</span>
+        </a>
+        <a href="privacy.html">
+          <span lang="zh">隱私權政策</span>
+          <span lang="en">Privacy Policy</span>
+        </a>
+        <a href="terms.html">
+          <span lang="zh">服務條款</span>
+          <span lang="en">Terms of Service</span>
+        </a>
+      </div>
     <div class="copyright">
       &copy; 2026 我的頭痛日記. 保留所有權利。 / All Rights Reserved.
     </div>

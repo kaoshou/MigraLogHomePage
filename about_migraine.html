@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>認識偏頭痛與開發心路歷程 - 我的頭痛日記</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="深入了解偏頭痛的臨床盛行率、常見誘因與醫學限制。分享一位偏頭痛長期困擾者如何因為發作時難以紀錄的痛點，親自打造「最少點擊、先記錄後補充」的健康管理日記 App。">
+  <meta name="keywords" content="偏頭痛, 頭痛日記, 台灣頭痛學會, 衛福部, 偏頭痛盛行率, 偏頭痛誘因, 頭痛紀錄 App, 隱私安全">
+  <link rel="canonical" href="https://migralog.yuhan.tw/about_migraine.html">
+
+  <!-- Open Graph / Facebook Meta Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://migralog.yuhan.tw/about_migraine.html">
+  <meta property="og:title" content="認識偏頭痛與開發心路歷程 - 我的頭痛日記">
+  <meta property="og:description" content="深入了解偏頭痛的臨床盛行率與常見誘因。分享一位偏頭痛長期困擾者如何因發作時難以紀錄的痛點，親自打造「最少點擊、先記錄後補充」的健康管理日記 App。">
+  <meta property="og:image" content="https://migralog.yuhan.tw/logo.png">
+
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:url" content="https://migralog.yuhan.tw/about_migraine.html">
+  <meta name="twitter:title" content="認識偏頭痛與開發心路歷程 - 我的頭痛日記">
+  <meta name="twitter:description" content="深入了解偏頭痛的臨床盛行率與常見誘因。分享一位偏頭痛長期困擾者如何因發作時難以紀錄的痛點，親自打造「最少點擊、先記錄後補充」的健康管理日記 App。">
+  <meta name="twitter:image" content="https://migralog.yuhan.tw/logo.png">
+
+  <link rel="icon" href="logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-color: #0b0f19;
+      --text-color: #f8fafc;
+      --text-muted: #64748b;
+      --text-body: #cbd5e1;
+      --primary-color: #0ea5e9;
+      --primary-glow: rgba(14, 165, 233, 0.2);
+      --secondary-color: #2dd4bf;
+      --secondary-glow: rgba(45, 212, 191, 0.2);
+      --accent-color: #6366f1;
+      --accent-glow: rgba(99, 102, 241, 0.2);
+      --glass-bg: rgba(15, 23, 42, 0.55);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --card-hover-border: rgba(45, 212, 191, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', 'Noto Sans TC', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.85;
+      overflow-x: hidden;
+      position: relative;
+      padding-top: 110px;
+    }
+
+    /* Spatial Flow Background Blobs */
+    .bg-blob-container {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: -2;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .blur-blob {
+      position: absolute;
+      width: 550px;
+      height: 550px;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.15;
+      animation: floatBlob 25s infinite alternate ease-in-out;
+    }
+
+    .blob-1 {
+      background: var(--primary-color);
+      top: -10%; left: -5%;
+    }
+
+    .blob-2 {
+      background: var(--secondary-color);
+      bottom: 10%; right: -10%;
+      animation-delay: -7s;
+    }
+
+    .blob-3 {
+      background: var(--accent-color);
+      top: 40%; left: 35%;
+      animation-delay: -14s;
+    }
+
+    @keyframes floatBlob {
+      0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+      50% { transform: translate(80px, 50px) scale(1.15) rotate(180deg); }
+      100% { transform: translate(-40px, 120px) scale(0.9) rotate(360deg); }
+    }
+
+    /* Bilingual Toggle CSS */
+    body.lang-zh [lang="en"] {
+      display: none !important;
+    }
+    body.lang-en [lang="zh"] {
+      display: none !important;
+    }
+
+    /* Header Nav */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 2.2rem 2rem;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      background: transparent;
+      border-bottom: 1px solid transparent;
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header.scrolled {
+      padding: 0.9rem 2rem;
+      background: rgba(11, 15, 25, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+    }
+
+    .logo-img {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(14, 165, 233, 0.4);
+      object-fit: cover;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #ffffff 40%, var(--text-body) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      color: var(--text-body);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: all 0.3s;
+      position: relative;
+      padding: 0.25rem 0;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 2px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: #fff;
+    }
+
+    .nav-links a:hover::after, .nav-links a.active::after {
+      width: 100%;
+    }
+
+    .lang-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--glass-border);
+      color: var(--text-body);
+      padding: 0.6rem 1.2rem;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s;
+      backdrop-filter: blur(10px);
+    }
+
+    .lang-btn:hover {
+      border-color: var(--primary-color);
+      color: #fff;
+      background: rgba(14, 165, 233, 0.1);
+      box-shadow: 0 0 15px rgba(14, 165, 233, 0.25);
+      transform: translateY(-1px);
+    }
+
+    /* Main Content Layout */
+    main {
+      max-width: 960px;
+      margin: 2rem auto 8rem;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 5;
+    }
+
+    /* Article Hero */
+    .article-hero {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .article-title {
+      font-size: 2.8rem;
+      font-weight: 900;
+      line-height: 1.3;
+      margin-bottom: 1.5rem;
+      letter-spacing: -1.5px;
+      background: linear-gradient(135deg, #ffffff 40%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .article-meta {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .article-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* Content Styling */
+    .content-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 32px;
+      padding: 4.5rem 4rem;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      margin-bottom: 3rem;
+    }
+
+    h2.section-header {
+      font-size: 1.9rem;
+      font-weight: 800;
+      margin: 3.5rem 0 1.25rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 0.75rem;
+    }
+
+    h2.section-header:first-of-type {
+      margin-top: 0;
+    }
+
+    h3.sub-section-header {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin: 2rem 0 1rem;
+      color: var(--secondary-color);
+    }
+
+    p {
+      color: var(--text-body);
+      margin-bottom: 1.8rem;
+      text-align: justify;
+      font-size: 1.02rem;
+    }
+
+    p strong {
+      color: #fff;
+      font-weight: 600;
+    }
+
+    ul, ol {
+      margin-bottom: 2rem;
+      padding-left: 1.75rem;
+      color: var(--text-body);
+      font-size: 1.02rem;
+    }
+
+    li {
+      margin-bottom: 0.8rem;
+    }
+
+    blockquote {
+      background: rgba(14, 165, 233, 0.04);
+      border-left: 4px solid var(--primary-color);
+      padding: 1.5rem 2rem;
+      margin: 2.5rem 0;
+      border-radius: 0 24px 24px 0;
+      border-top: 1px solid rgba(14, 165, 233, 0.08);
+      border-right: 1px solid rgba(14, 165, 233, 0.08);
+      border-bottom: 1px solid rgba(14, 165, 233, 0.08);
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      font-style: normal;
+      color: #fff;
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+
+    .citation {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.75rem;
+      text-align: right;
+    }
+
+    .citation a {
+      color: var(--primary-color);
+      text-decoration: none;
+      transition: color 0.3s;
+      font-weight: 500;
+    }
+
+    .citation a:hover {
+      text-decoration: underline;
+    }
+
+    /* Highlight box */
+    .story-box {
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.06), rgba(99, 102, 241, 0.06));
+      border: 1px solid rgba(45, 212, 191, 0.18);
+      border-radius: 28px;
+      padding: 2.5rem;
+      margin: 3rem 0;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+
+    .story-box h3 {
+      color: var(--secondary-color);
+      font-size: 1.35rem;
+      margin-bottom: 1.25rem;
+      font-weight: 800;
+    }
+
+    .story-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Call to Action Button */
+    .cta-container {
+      text-align: center;
+      margin-top: 4.5rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1.1rem 2.8rem;
+      border-radius: 18px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: #0b0f19;
+      box-shadow: 0 8px 30px rgba(14, 165, 233, 0.3);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(14, 165, 233, 0.5);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--glass-border);
+      padding: 4rem 2rem;
+      background: rgba(7, 10, 17, 0.95);
+      margin-top: 8rem;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.3s;
+      font-weight: 500;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary-color);
+    }
+
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* Diary Illustration */
+    .diary-illustration {
+      width: 100%;
+      max-width: 480px;
+      border-radius: 24px;
+      display: block;
+      margin: 2.5rem auto;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      object-fit: cover;
+    }
+
+    /* Process Flow Chart */
+    .process-flow {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 2.2rem 2rem;
+      margin: 2.5rem 0;
+      gap: 1rem;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+    }
+
+    .flow-step {
+      flex: 1;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .step-num {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: #0b0f19;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 0 15px rgba(14, 165, 233, 0.3);
+    }
+
+    .flow-arrow {
+      font-size: 1.5rem;
+      color: var(--text-muted);
+      user-select: none;
+      font-family: monospace;
+    }
+
+    .flow-step h4 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: #fff;
+    }
+
+    .flow-step p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 0;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding-top: 130px;
+      }
+      .article-title {
+        font-size: 2.1rem;
+      }
+      .content-card {
+        padding: 3rem 2rem;
+        border-radius: 24px;
+      }
+      header {
+        padding: 1.2rem 1.5rem;
+      }
+      .header-container {
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+      .header-right {
+        width: 100%;
+        justify-content: center;
+        gap: 1.25rem;
+      }
+      .nav-links {
+        gap: 1.25rem;
+      }
+      .process-flow {
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem 1.5rem;
+      }
+      .flow-arrow {
+        transform: rotate(90deg);
+      }
+      .footer-content {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body class="lang-zh">
+
+  <!-- Spatial Background Blobs -->
+  <div class="bg-blob-container">
+    <div class="blur-blob blob-1"></div>
+    <div class="blur-blob blob-2"></div>
+    <div class="blur-blob blob-3"></div>
+  </div>
+
+  <header>
+    <div class="header-container">
+      <a class="logo-container" href="index.html">
+        <img class="logo-img" src="logo.png" alt="App Logo">
+        <div class="logo-text">
+          <span lang="zh">我的頭痛日記</span>
+          <span lang="en">My Headache Diary</span>
+        </div>
+      </a>
+      <div class="header-right">
+        <nav class="nav-links">
+          <a href="index.html">
+            <span lang="zh">首頁</span>
+            <span lang="en">Home</span>
+          </a>
+          <a class="active" href="about_migraine.html">
+            <span lang="zh">關於偏頭痛</span>
+            <span lang="en">About Migraine</span>
+          </a>
+          <a href="privacy.html">
+            <span lang="zh">隱私權政策</span>
+            <span lang="en">Privacy Policy</span>
+          </a>
+          <a href="terms.html">
+            <span lang="zh">服務條款</span>
+            <span lang="en">Terms of Service</span>
+          </a>
+        </nav>
+        <button class="lang-btn" onclick="toggleLanguage()">
+          🌐 <span id="lang-btn-text">English</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <article class="article-hero">
+      <h1 class="article-title">
+        <span lang="zh">被低估的隱形失能劇痛：認識偏頭痛與日常紀錄的臨床價值</span>
+        <span lang="en">The Invisible Severe Pain: Understanding Migraine and the Clinical Value of Daily Logging</span>
+      </h1>
+      <div class="article-meta">
+        <span>
+          ✍️ <span lang="zh">一位偏頭痛困擾者的分享</span>
+          <span lang="en">Shared by a Migraine Sufferer</span>
+        </span>
+      </div>
+    </article>
+
+    <div class="content-card">
+      
+      <!-- Section 1 -->
+      <h2 class="section-header">
+        <span>1.</span>
+        <span lang="zh">偏頭痛並非「小毛病」：全球公共衛生的隱形危害</span>
+        <span lang="en">Not Just a Headache: A Major Global Health Challenge</span>
+      </h2>
+      <p>
+        <span lang="zh">在許多人的刻板印象中，「偏頭痛」常被誤解為只是普通的頭痛，或是因為壓力大、沒睡好而產生的短暫不適。然而在現代醫學中，偏頭痛是一種類型複雜且影響全身的<strong>慢性神經血管性疾病</strong>。發作時常伴隨著搏動性的劇烈抽痛，程度多為中度至重度，且會因日常身體活動而惡化。</span>
+        <span lang="en">Migraine is often misunderstood as "just a simple headache" or a transient discomfort due to stress. However, modern medical research defines migraine as a complex, disabling <strong>chronic neurovascular disease</strong>. Attacks feature severe, pulsating head pain that is moderate-to-severe and typically worsens with routine physical movement.</span>
+      </p>
+      <p>
+        <span lang="zh">根據世界衛生組織（WHO）最新的全球疾病負擔研究，偏頭痛已被列為<strong>全球第二大導致失能（Years Lived with Disability, YLD）的原因</strong>；而在 50 歲以下黃金工作年齡人群中，它更是高居所有失能病因的第一位，對社會經濟造成難以估量的損失。在台灣，這項疾病的普遍性同樣令人吃驚：</span>
+        <span lang="en">According to the World Health Organization (WHO), migraine is ranked as the <strong>second leading cause of disability worldwide</strong>. Among prime-age adults under 50, it stands as the absolute number one cause of years lived with disability, causing severe socio-economic impact. In Taiwan, the prevalence is equally alarming:</span>
+      </p>
+      <blockquote>
+        <p>
+          <span lang="zh">「根據中華民國衛生福利部（衛福部）與台灣頭痛學會的公開衛教資料顯示，台灣偏頭痛盛行率高達 9.7%，估計全台有將近 200 萬名患者深受其害。這意味著在我們身邊，每 10 個人中就大約有 1 人正面臨偏頭痛的折磨。好發族群多在 20 至 50 歲之間的社會中堅力量，且女性的發作率是男性的 3 倍。」</span>
+          <span lang="en">"According to statistics released by the Taiwan Ministry of Health and Welfare (MOHW) and the Taiwan Headache Society, the prevalence of migraine in Taiwan is approximately 9.7%, affecting nearly 2 million patients. This means roughly 1 in 10 individuals around us suffers from this disease. It heavily affects prime productive ages (20-50), with females being affected three times more than males."</span>
+        </p>
+        <div class="citation">
+          <span lang="zh">資料來源：<a href="https://www.mohw.gov.tw/" target="_blank" rel="noopener noreferrer">中華民國衛生福利部</a> / <a href="https://taiwanheadache.org.tw/" target="_blank" rel="noopener noreferrer">台灣頭痛學會</a> 官方發佈資料</span>
+          <span lang="en">Source: <a href="https://www.mohw.gov.tw/" target="_blank" rel="noopener noreferrer">Taiwan MOHW</a> / <a href="https://taiwanheadache.org.tw/" target="_blank" rel="noopener noreferrer">Taiwan Headache Society</a></span>
+        </div>
+      </blockquote>
+      <p>
+        <span lang="zh">對患者而言，這不僅是肉體上的折磨，更嚴重打擊了日常生活品質。發作時，除了要面對腦中如心跳般搏動的抽痛，通常還會伴隨著<strong>極度噁心、嘔吐、全身無力</strong>，以及對光線與聲音的<strong>高度敏感（畏光、畏聲）</strong>。這使得患者在發作時必須中斷手邊的工作、課業或社交活動，不得不躲入黑暗無光的寧靜房間內躺下，造成顯著的缺勤（Absenteeism）與帶病出勤效率折損（Presenteeism）。</span>
+        <span lang="en">For patients, it damages the overall quality of life. During attacks, in addition to throbbing head pain, patients experience <strong>severe nausea, vomiting, physical fatigue</strong>, and <strong>photophobia/phonophobia</strong>. They are forced to skip work, school, or social events, and retreat to a pitch-black, silent room. This causes a massive loss in workplace attendance (absenteeism) and productivity (presenteeism).</span>
+      </p>
+
+      <!-- Section 2 -->
+      <h2 class="section-header">
+        <span>2.</span>
+        <span lang="zh">預兆與無預兆：偏頭痛的臨床分類</span>
+        <span lang="en">Clinical Classifications & Presentations</span>
+      </h2>
+      <p>
+        <span lang="zh">在醫學診斷上，偏頭痛主要被劃分為兩大類型，其臨床表現各具特徵：</span>
+        <span lang="en">For diagnostic purposes, migraines are clinically categorized into two major types:</span>
+      </p>
+      
+      <h3 class="sub-section-header">
+        <span lang="zh">① 無預兆偏頭痛 (Migraine without aura)</span>
+        <span lang="en">① Migraine without aura</span>
+      </h3>
+      <p>
+        <span lang="zh">這是最常見的偏頭痛類型，約佔所有病例的 70% 至 80%。發作時不會有前兆，而是直接爆發中至重度的搏動性痛楚。疼痛多分布於單側（但亦有約三分之一的患者為雙側疼痛），每次發作通常會持續 <strong>4 至 72 小時</strong>。此類頭痛在爬樓梯、走路或低頭時會劇烈加重，且極易伴隨噁心、畏光畏聲等全身症狀。</span>
+        <span lang="en">This is the most common type, accounting for 70% to 80% of cases. Attacks start without warning, leading directly to moderate-to-severe pulsating pain. It affects one side of the head (though about one-third of patients experience bilateral pain) and typically lasts <strong>4 to 72 hours</strong>. Physical activities like walking or climbing stairs heavily worsen the pain, often accompanied by nausea and light/sound sensitivity.</span>
+      </p>
+
+      <h3 class="sub-section-header">
+        <span lang="zh">② 預兆偏頭痛 (Migraine with aura)</span>
+        <span lang="en">② Migraine with aura</span>
+      </h3>
+      <p>
+        <span lang="zh">約有 20% 的患者在頭痛來襲前，會經歷短暫且可逆的神經系統功能障礙，即所謂的「預兆」。這些預兆多在頭痛前 5 至 20 分鐘內出現，且通常持續不超過 60 分鐘。</span>
+        <span lang="en">About 20% of patients experience transient, fully reversible neurological disturbances before head pain begins, known as an "aura." These typically appear 5 to 20 minutes before the pain and resolve within 60 minutes.</span>
+      </p>
+      <ul>
+        <li>
+          <span lang="zh"><strong>視覺預兆</strong>（最常見）：視野中出現閃爍的光點、鋸齒狀的亮線（閃光暗點）、盲點、甚至暫時性的視野缺損。</span>
+          <span lang="en"><strong>Visual Aura</strong> (Most Common): Flashing lights, blind spots, zigzag lines, or temporary vision loss.</span>
+        </li>
+        <li>
+          <span lang="zh"><strong>感覺預兆</strong>：身體單側出現針刺感、發麻，痛感或麻木感可能從手指擴散至手臂，甚至波及臉部。</span>
+          <span lang="en"><strong>Sensory Aura</strong>: Numbness or a pins-and-needles sensation on one side of the body, often spreading from the hand up the arm to the face.</span>
+        </li>
+        <li>
+          <span lang="zh"><strong>語言預兆</strong>：出現短暫的表達困難、口齒不清或想不起單字等失語症狀。</span>
+          <span lang="en"><strong>Speech Aura</strong>: Transient difficulties in expressing words, slurred speech, or minor aphasia.</span>
+        </li>
+      </ul>
+
+      <!-- Section 3 -->
+      <h2 class="section-header">
+        <span>3.</span>
+        <span lang="zh">日常隱形殺手：多樣化的誘發因子 (Triggers)</span>
+        <span lang="en">The Silent Triggers of Daily Life</span>
+      </h2>
+      <p>
+        <span lang="zh">偏頭痛的核心病理機制非常敏感，大腦的神經血管極易受到內部生理或外部環境變化的刺激而過度反應。根據台灣頭痛學會整理的臨床衛教，日常生活中最常見的誘發情境與機制包括：</span>
+        <span lang="en">The brain of a migraineur is highly sensitive to inner physiological shifts and external environmental changes. According to clinical guides from the Taiwan Headache Society, common triggers include:</span>
+      </p>
+      
+      <h3 class="sub-section-header">
+        <span lang="zh">■ 精神壓力與情緒波動</span>
+        <span lang="en">■ Psychological Stress and Emotions</span>
+      </h3>
+      <p>
+        <span lang="zh">情緒緊繃、高壓工作是公認的頭號誘發因子。然而同樣常見的是，當長期高壓驟然解除、身體進入放鬆狀態時（例如週末），副交感神經反彈會導致腦血管急速擴張，進而引發劇烈的頭痛。</span>
+        <span lang="en">Chronic stress and emotional fluctuations are primary triggers. Interestingly, a sudden relief from long-term stress (e.g., weekend relaxation) causes rebound blood vessel expansion, triggering severe headaches.</span>
+      </p>
+
+      <h3 class="sub-section-header">
+        <span lang="zh">■ 睡眠規律的破壞</span>
+        <span lang="en">■ Irregular Sleep Patterns</span>
+      </h3>
+      <p>
+        <span lang="zh">大腦渴望規律。睡眠不足、熬夜無疑會誘發頭痛；但同樣地，假日睡得太久、過度補眠，亦會打亂生理時鐘並引發俗稱的「假日頭痛 (Weekend Headache)」。</span>
+        <span lang="en">The brain demands consistency. Deprivation of sleep or pulling all-nighters triggers attacks; conversely, sleeping in too late on weekends disrupts the circadian rhythm and induces "weekend headaches."</span>
+      </p>
+
+      <h3 class="sub-section-header">
+        <span lang="zh">■ 飲食習慣與特定化學成分</span>
+        <span lang="en">■ Dietary Triggers</span>
+      </h3>
+      <p>
+        <span lang="zh">不規律的飲食（空腹導致低血糖）極易引發偏頭痛。此外，某些食物中含有的特定化學物質也可能觸發頭痛，例如：熟成起司中的酪胺（Tyramine）、巧克力、加工肉品（如培根、香腸）中的防腐劑亞硝酸鹽、紅酒中的組織胺與亞硫酸鹽、以及人工代糖阿斯巴甜等。此外，咖啡因的「過量」或「戒斷」也是常見的雙刃劍。</span>
+        <span lang="en">Skipping meals causes low blood sugar, which triggers pain. Specific compounds in food may also act as triggers: tyramine in aged cheese, phenylethylamine in chocolate, nitrites in processed meats, histamines in red wine, or artificial sweeteners. Caffeine excess or withdrawal is another double-edged sword.</span>
+      </p>
+
+      <h3 class="sub-section-header">
+        <span lang="zh">■ 氣候與環境劇烈轉變</span>
+        <span lang="en">■ Weather and Environmental Changes</span>
+      </h3>
+      <p>
+        <span lang="zh">台灣潮濕多變的氣候常讓患者感到困擾。季節交替、氣壓劇降、颱風前後，或是夏日頻繁進出冷氣房所造成的冷熱極端溫差，都容易引起腦部血管收縮與擴張異常。另外，刺眼的強光、密集的閃光、以及嘈雜的高分貝環境也是物理性的直接刺激。</span>
+        <span lang="en">Taiwan's humid, highly variable climate poses challenges. Seasonal transitions, barometric pressure drops, or walking between hot streets and air-conditioned rooms can trigger vascular instability. Bright sunlight, strobe lights, and noisy environments are direct physical triggers.</span>
+      </p>
+
+      <h3 class="sub-section-header">
+        <span lang="zh">■ 女性荷爾蒙的劇烈波動</span>
+        <span lang="en">■ Fluctuations of Female Hormones</span>
+      </h3>
+      <p>
+        <span lang="zh">這也是女性盛行率偏高的主因。在女性生理期前後，由於體內雌激素（Estrogen）水平急速下降，容易刺激腦部三叉神經血管系統，誘發週期性的偏頭痛發作（又稱經期偏頭痛）。</span>
+        <span lang="en">This explains the high prevalence in women. Fluctuations (particularly drops in estrogen) right before or during menstruation stimulate the trigeminovascular system, causing cyclical attacks.</span>
+      </p>
+
+      <!-- Section 4 -->
+      <h2 class="section-header">
+        <span>4.</span>
+        <span lang="zh">目前醫學的防線與局限：為什麼醫生一定要你記「頭痛日記」？</span>
+        <span lang="en">Medical Limitations & the Importance of a Diary</span>
+      </h2>
+      <p>
+        <span lang="zh">雖然現代醫學擁有了新型的特異性急性藥物（如翠普登類 Triptans）及預防性藥物（如 CGRP 抑制劑），但遺憾的是，偏頭痛目前在臨床上仍<strong>無法被完全根治</strong>。由於每位患者的誘因、痛感規律與用藥成效存在極大的個體差異，治療的成敗非常依賴「個人化的精準防禦與精準用藥」。</span>
+        <span lang="en">Despite modern therapeutic options (like Triptans and CGRP inhibitors), migraine <strong>cannot be fully cured</strong>. Because triggers, patterns, and responses vary heavily among individuals, successful treatment relies on personalized preventative strategies.</span>
+      </p>
+      <p>
+        <span lang="zh">為此，不論是台灣頭痛學會還是各大醫學中心的神經內科醫師，在患者就診時，都會一再要求、叮嚀病患務必填寫<strong>「頭痛日記」</strong>。</span>
+        <span lang="en">Therefore, neurologists in Taiwan require patients to maintain a detailed, continuous <strong>"Headache Diary"</strong>.</span>
+      </p>
+      <blockquote>
+        <p>
+          <span lang="zh"><strong>「頭痛日記是醫師調整處方的黃金指南。」</strong><br>
+          它能幫醫生客觀評估三個核心問題：第一，發作頻率是否已高到需要每日服用「預防性藥物」？第二，目前開立的止痛藥對你的藥效如何、止痛時間是否足夠？第三，也是最危險的，你服用的急性止痛藥是否過於頻繁？如果一個月服用止痛藥超過 10 天，極可能導致神經更加敏感，反而誘發更難纏的「藥物過度使用性頭痛」（Medication Overuse Headache, MOH）。</span>
+          <span lang="en"><strong>"The headache diary is the golden guide for physicians to adjust treatments."</strong><br>
+          It helps doctors answer three critical questions: 1. Is your attack frequency high enough to warrant daily preventive medications? 2. Is your acute pain reliever working efficiently? 3. Are you taking painkillers too frequently? Overusing acute medications (more than 10 days per month) can paradoxically trigger "Medication Overuse Headaches" (MOH).</span>
+        </p>
+      </blockquote>
+      <p>
+        <span lang="zh">換句話說，沒有一份詳實客觀的紀錄，醫師看診時只能憑藉病患糢糊的近期記憶來猜測病情，診斷與用藥的精準度將大打折扣。</span>
+        <span lang="en">In other words, without a continuous objective record, doctors can only guess the severity based on the patient's vague recollections, which reduces the precision of medical adjustments.</span>
+      </p>
+
+      <!-- Headache Diary Detail Sub-section -->
+      <h3 class="sub-section-header">
+        <span lang="zh">🔍 何謂「頭痛日記」？</span>
+        <span lang="en">🔍 What is a "Headache Diary"?</span>
+      </h3>
+      <p>
+        <span lang="zh">頭痛日記是一種由患者主動記錄的健康日誌，用於追蹤每一次頭痛發作的關鍵特徵。一份標準的日記通常包含：發作起訖時間、疼痛強度（自評 1 至 10 分）、伴隨症狀（如畏光、畏聲、噁心）、用藥反應（藥物名稱、劑量與服用時間）、生理期週期，以及可能的日常誘發因子。這能協助醫生找出您的專屬偏頭痛規律，做出最精準的預防與治療。</span>
+        <span lang="en">A headache diary is a self-reported log used to track key details of each attack. A standard diary typically records: onset and offset times, severity (on a 1-10 scale), associated symptoms (like photophobia, phonophobia, nausea), medications taken (name, dosage, timing, efficacy), menstrual cycles, and potential triggers. This helps doctors decode your migraine patterns for precise prevention and treatment.</span>
+      </p>
+
+      <!-- AI Generated Illustration -->
+      <img src="migraine_diary_illustration.png" class="diary-illustration" alt="頭痛日記示意圖 / Headache Diary Concept Illustration">
+
+      <!-- CSS Step Flowchart -->
+      <h3 class="sub-section-header">
+        <span lang="zh">🔄 極簡二階段頭痛紀錄流程</span>
+        <span lang="en">🔄 Minimalist Logging Workflow</span>
+      </h3>
+      <div class="process-flow">
+        <div class="flow-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4 lang="zh">痛當下：一秒快速記錄</h4>
+            <h4 lang="en">Onset: 1-Second Quick Log</h4>
+            <p lang="zh">發作當下視線模糊，手機或手錶一鍵標記開始時間，隨即休息。</p>
+            <p lang="en">When it strikes, tap one button on watch or phone to log time, then rest.</p>
+          </div>
+        </div>
+        <div class="flow-arrow">➔</div>
+        <div class="flow-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4 lang="zh">緩解後：從容補登細節</h4>
+            <h4 lang="en">Recovery: Supplement Later</h4>
+            <p lang="zh">精神完全恢復後，隨手補填藥物、症狀與可能的日常誘因。</p>
+            <p lang="en">Add medications, symptoms, and potential triggers at your convenience.</p>
+          </div>
+        </div>
+        <div class="flow-arrow">➔</div>
+        <div class="flow-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4 lang="zh">就診時：生成 PDF 報告</h4>
+            <h4 lang="en">Clinic: PDF Report</h4>
+            <p lang="zh">一鍵生成無亂碼的精美 PDF 看診報告，協助醫師精準診斷。</p>
+            <p lang="en">Generate clean PDF reports to share with your doctor for better care.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sample Table -->
+      <h3 class="sub-section-header">
+        <span lang="zh">📝 頭痛日記記錄範例 (Example)</span>
+        <span lang="en">📝 Example of a Diary Log Entry</span>
+      </h3>
+      <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+          <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+            <th style="padding: 0.5rem; text-align: left; color: var(--secondary-color); width: 30%;"><span lang="zh">記錄欄位</span><span lang="en">Field</span></th>
+            <th style="padding: 0.5rem; text-align: left; color: #fff;"><span lang="zh">日記內容範例</span><span lang="en">Sample Log Entry</span></th>
+          </tr>
+          <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem; color: var(--text-body);"><span lang="zh">發作時間</span><span lang="en">Time</span></td>
+            <td style="padding: 0.5rem; color: var(--text-body);"><span lang="zh">2026/07/12 14:30 ~ 19:00 (持續約 4.5 小時)</span><span lang="en">2026/07/12 14:30 ~ 19:00 (Duration: ~4.5 hours)</span></td>
+          </tr>
+          <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem; color: var(--text-body);"><span lang="zh">疼痛強度</span><span lang="en">Severity</span></td>
+            <td style="padding: 0.5rem; color: var(--text-body);"><span lang="zh">7 / 10 分 (中重度，太陽穴搏動性跳痛)</span><span lang="en">7 / 10 (Moderate to severe pulsing pain on temples)</span></td>
+          </tr>
+          <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem; color: var(--text-body);"><span lang="zh">伴隨症狀</span><span lang="en">Symptoms</span></td>
+            <td style="padding: 0.5rem; color: var(--text-body);"><span lang="zh">畏光、怕吵、輕微噁心感</span><span lang="en">Photophobia, phonophobia, mild nausea</span></td>
+          </tr>
+          <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem; color: var(--text-body);"><span lang="zh">急性用藥</span><span lang="en">Medication</span></td>
+            <td style="padding: 0.5rem; color: var(--text-body);"><span lang="zh">15:00 服用翠普登 (Triptan) 1 顆，17:30 痛感降至 2 分</span><span lang="en">Took 1 Triptan tablet at 15:00, pain reduced to 2/10 by 17:30</span></td>
+          </tr>
+          <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+            <td style="padding: 0.5rem; color: var(--text-body);"><span lang="zh">誘發因子</span><span lang="en">Possible Triggers</span></td>
+            <td style="padding: 0.5rem; color: var(--text-body);"><span lang="zh">前一晚熬夜睡眠不足，且夏日進出冷氣房溫差大</span><span lang="en">Sleep deprivation the night before, extreme hot-to-cold air conditioning shifts</span></td>
+          </tr>
+          <tr>
+            <td style="padding: 0.5rem; color: var(--text-body);"><span lang="zh">日常影響</span><span lang="en">Daily Impact</span></td>
+            <td style="padding: 0.5rem; color: var(--text-body);"><span lang="zh">無法專注工作，需在黑暗安靜的房間內躺下休息</span><span lang="en">Could not focus on work, had to lie down in a dark and quiet room</span></td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Authoritative Link -->
+      <h3 class="sub-section-header">
+        <span lang="zh">🔗 權威醫學資源連結</span>
+        <span lang="en">🔗 Authoritative Resources</span>
+      </h3>
+      <p>
+        <span lang="zh">如果您希望下載並列印標準的紙本頭痛日記，可前往 <strong><a href="https://taiwanheadache.org.tw/" target="_blank" style="color: var(--primary-color); text-decoration: none;">台灣頭痛學會官方網站</a></strong> 下載最新版本的「頭痛日記」PDF 表格，帶去門診與您的主治醫師討論，這對個人化的偏頭痛管理至關重要。</span>
+        <span lang="en">If you prefer a physical paper record, you can visit the official <strong><a href="https://taiwanheadache.org.tw/" target="_blank" style="color: var(--primary-color); text-decoration: none;">Taiwan Headache Society Website</a></strong> to download standard Headache Diary PDFs. Sharing them with your physician is key to personalized migraine care.</span>
+      </p>
+
+      <!-- Section 5 -->
+      <h2 class="section-header">
+        <span>5.</span>
+        <span lang="zh">一位偏頭痛困擾者的真實痛點：極度不適時，紀錄是一場折磨</span>
+        <span lang="en">A Sufferer's Pain Point: Strained Logging Under Severe Pain</span>
+      </h2>
+      <div class="story-box">
+        <h3 lang="zh">當世界都在旋轉搏動，誰有能力填表單？</h3>
+        <h3 lang="en">When the World is Throbbing, Who Can Fill Out Forms?</h3>
+        <p>
+          <span lang="zh">作為一個有著多年病史的偏頭痛困擾者，我深知每一次發作來襲時的絕望。當太陽穴伴隨著心跳劇烈抽痛，眼前出現重影與畏光，胃裡一陣陣噁心想吐，甚至連一絲聲音都像在耳邊打雷時，我唯一能做的，就是關掉所有燈光，躲進最暗、最安靜的被窩裡瑟瑟發抖。</span>
+          <span lang="en">Having battled migraines for years, I know the raw desperation. When my temple throbs in sync with my heartbeat, light blinds my eyes, nausea turns my stomach, and tiny sounds feel like thunder, all I can do is turn off every light and curl up in a dark, quiet bed.</span>
+        </p>
+        <p style="margin-top: 1.25rem;">
+          <span lang="zh">然而，在這種大腦幾乎當機、連睜眼都極度痛苦的時刻，醫生的叮嚀卻像一副沉重的枷鎖：「發作時要仔細記錄：幾點開始痛？痛感是幾分？伴隨什麼症狀？吃了什麼止痛藥？劑量是多少？幾點開始緩解？」</span>
+          <span lang="en">Yet, during these moments when my brain freezes, the doctor's instructions feel like a heavy burden: "Log everything carefully: What time did it start? How bad is the pain scale? What symptoms occurred? What medication and dosage did you take? When did it resolve?"</span>
+        </p>
+        <p style="margin-top: 1.25rem;">
+          <span lang="zh"><strong>這在實務上根本難以做到。</strong> 叫一個劇痛中的人拿筆去紙本表格上寫字？紙張常常不見，看診時帶去也是一堆凌亂的塗改。叫人去盯著刺眼的手機螢幕，在市面上功能繁瑣的 App 裡點開層層下拉選單、填寫複雜的多步驟欄位？我多看一眼螢幕亮光都覺得噁心想吐。這就是為什麼偏頭痛日記在臨床上依從性極低的原因。</span>
+          <span lang="en"><strong>This is practically impossible.</strong> Asking a groaning patient to write on a paper sheet? Paper gets lost, and brings messy scribbles to clinic visits. Asking them to stare at a glowing screen and navigate nested dropdowns or multi-step wizards in over-designed apps? Even a single second of screen light causes severe nausea. This is why diary compliance remains extremely low.</span>
+        </p>
+      </div>
+      <p>
+        <span lang="zh">因為自己感同身受，我發現我們在痛楚當下的真實需求其實非常單純：</span>
+        <span lang="en">Through my own suffering, I realized that our true need during an attack is incredibly simple:</span>
+      </p>
+      <p>
+        <span lang="zh"><strong>「我只想要在發作發生的當下，閉著眼睛，用手錶或手機一鍵盲按，花不到一秒鐘先標記：『我現在開始頭痛了』。接著我就可以立刻去休息。等幾個小時或隔天，頭痛完全緩解、體力恢復了，我才在空閒時間補登用藥、症狀、誘因與備註。」</strong></span>
+        <span lang="en"><strong>"When it strikes, I just want to close my eyes, tap a single button on my watch or phone blindly, taking less than a second to tag: 'I started a headache now'. Then I can immediately go rest. Hours later or the next day, when the pain is gone and my energy is back, I can supplement meds, symptoms, triggers, and notes at my convenience."</strong></span>
+      </p>
+      <p>
+        <span lang="zh">由於遍尋不著能完美適配此一痛點的工具，我決定以一個困擾者的身份，為同病相憐的大家開發這款 App —— <strong>《我的頭痛日記》(MigraLog)</strong>。</span>
+        <span lang="en">Since no available app was designed to accommodate this specific friction, I decided to build one myself for all of us — <strong>My Headache Diary (MigraLog)</strong>.</span>
+      </p>
+
+      <!-- Section 6 -->
+      <h2 class="section-header">
+        <span>6.</span>
+        <span lang="zh">以「極致簡約與隱私安全」為本，分享大眾</span>
+        <span lang="en">Built on Simplicity & Absolute Privacy</span>
+      </h2>
+      <p>
+        <span lang="zh">這款日記 App 圍繞著「最少點擊，最大臨床價值」與「保守穩定」的哲學打造：</span>
+        <span lang="en">This diary app is built around the philosophy of "minimal clicks, maximum clinical value, and absolute stability":</span>
+      </p>
+      <ul>
+        <li>
+          <span lang="zh"><strong>一鍵極速記錄</strong>：開啟 App 迎面就是巨大的快捷按鈕，即使在劇痛視線模糊時，盲觸也能完成記錄。</span>
+          <span lang="en"><strong>One-Tap Quick Entry</strong>: A giant shortcut button greets you upon launch, allowing instant logs even with blurred vision.</span>
+        </li>
+        <li>
+          <span lang="zh"><strong>隨手拈來的 Wear OS 支援</strong>：支持獨立手錶 App 與 Tiles 資訊方塊。連手機都不用拿，在錶面上隨手按一下即可完成發作標記，防誤觸且無負擔。</span>
+          <span lang="en"><strong>Wear OS Standalone & Tile</strong>: No need to find your phone. Tap a standalone Tile on your wrist to log instantly, designed to prevent misclicks.</span>
+        </li>
+        <li>
+          <span lang="zh"><strong>無壓力的後續補齊機制</strong>：發作時間、生活影響程度、伴隨症狀（畏光/畏聲/噁心）、誘發因素與個人備註，全部留待您精神恢復時隨時補登，非強迫性。</span>
+          <span lang="en"><strong>Stress-Free Post-logging</strong>: Duration, disability level, triggers, medications, and text notes can all be supplemented later when your mind is clear.</span>
+        </li>
+        <li>
+          <span lang="zh"><strong>完全本機優先與隱私保障</strong>：醫療數據屬於高度敏感隱私。本 App <strong>無任何第三方伺服器、無廣告、無隱私追蹤 SDK</strong>。我們只串接您個人的 Google Drive 隱密資料夾（AppData）進行直接同步，無任何中轉，完全掌控隱私。</span>
+          <span lang="en"><strong>Local-First & Direct Cloud Sync</strong>: Health data is highly sensitive. We host <strong>no third-party servers, no ads, and zero tracking SDKs</strong>. Sync is completely serverless, sending encrypted backups directly to your personal Google Drive.</span>
+        </li>
+        <li>
+          <span lang="zh"><strong>簡約專業的 PDF 看診報告</strong>：一鍵生成乾淨、無中文字型亂碼的 PDF 日誌報告（包含用藥頻率比例圖、痛感標籤、動態起訖時間）。就診時直接向醫師展示，協助醫師在數十秒內做出最精確的處方評估。</span>
+          <span lang="en"><strong>Clean PDF Clinic Reports</strong>: Export formatted tables, visual medication bar charts, and color-coded pain scale labels in a beautiful PDF report. Share it directly with your doctor to make medical consultation highly efficient.</span>
+        </li>
+      </ul>
+      <p>
+        <span lang="zh">雖然偏頭痛是一場漫長的抗戰，但藉由仔細記錄頭痛日記，我們能夠主動找出自己誘發偏頭痛的個人規律。只要能避開這些觸發因子，就能更有效地掌握自己的健康主導權，從而大幅提升生活與工作品質。</span>
+        <span lang="en">Although managing migraine is a long journey, keeping a meticulous diary empowers us to identify our personal trigger patterns. By actively avoiding these triggers, we can regain control over our health and significantly improve our quality of life.</span>
+      </p>
+
+      <p>
+        <span lang="zh">《我的頭痛日記》純粹是我為了解決自身痛苦而開發的工具。如今我將它免費分享出來，沒有花哨的商業宣傳，也沒有隱私的後門。衷心希望這款 App 能成為您對抗偏頭痛路上的安靜助手，幫助我們在就診時與醫師展開更精確、更具價值的溝通。</span>
+        <span lang="en">My Headache Diary was built out of my own necessity. I share it freely without any commercial motives or privacy backdoor. I sincerely hope it serves as a quiet helper in your journey managing migraines, facilitating precise and valuable consultations with your doctor.</span>
+      </p>
+
+      <div class="cta-container">
+        <a href="index.html" class="btn">
+          <span lang="zh">📥 下載我的頭痛日記 App</span>
+          <span lang="en">📥 Download My Headache Diary</span>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="copyright">
+        &copy; 2026 我的頭痛日記. 保留所有權利。 / All Rights Reserved.
+      </div>
+      <div class="footer-links">
+        <a href="index.html">
+          <span lang="zh">首頁</span>
+          <span lang="en">Home</span>
+        </a>
+        <a href="about_migraine.html">
+          <span lang="zh">關於偏頭痛</span>
+          <span lang="en">About Migraine</span>
+        </a>
+        <a href="privacy.html">
+          <span lang="zh">隱私權政策</span>
+          <span lang="en">Privacy Policy</span>
+        </a>
+        <a href="terms.html">
+          <span lang="zh">服務條款</span>
+          <span lang="en">Terms of Service</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Toggle Language between zh (Chinese) and en (English)
+    function toggleLanguage() {
+      const body = document.body;
+      const langBtnText = document.getElementById('lang-btn-text');
+      
+      if (body.classList.contains('lang-zh')) {
+        body.classList.remove('lang-zh');
+        body.classList.add('lang-en');
+        langBtnText.innerText = '繁體中文';
+        localStorage.setItem('lang', 'en');
+      } else {
+        body.classList.remove('lang-en');
+        body.classList.add('lang-zh');
+        langBtnText.innerText = 'English';
+        localStorage.setItem('lang', 'zh');
+      }
+    }
+
+    // Initialize Language from preference
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('lang');
+      const body = document.body;
+      const langBtnText = document.getElementById('lang-btn-text');
+
+      if (savedLang === 'en') {
+        body.classList.remove('lang-zh');
+        body.classList.add('lang-en');
+        langBtnText.innerText = '繁體中文';
+      } else {
+        body.classList.remove('lang-en');
+        body.classList.add('lang-zh');
+        langBtnText.innerText = 'English';
+      }
+    });
+
+    // Sticky Header Scroll Event
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if (window.scrollY > 40) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+  </script>
+
+</body>
+
+</html>
