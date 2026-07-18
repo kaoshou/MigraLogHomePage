@@ -538,17 +538,49 @@
       header {
         padding: 1.2rem 1.5rem;
       }
+      header.scrolled {
+        padding: 0.8rem 1.5rem;
+      }
       .header-container {
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: 1fr auto;
         gap: 0.8rem;
+        align-items: center;
+      }
+      .logo-container {
+        grid-column: 1;
+        grid-row: 1;
+        gap: 0.6rem;
+      }
+      .logo-img {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+      }
+      .logo-text {
+        font-size: 1.25rem;
       }
       .header-right {
-        width: 100%;
-        justify-content: center;
-        gap: 1.25rem;
+        display: contents;
       }
       .nav-links {
-        gap: 1.25rem;
+        grid-column: 1 / span 2;
+        grid-row: 2;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .nav-links a {
+        white-space: nowrap;
+        font-size: 0.9rem;
+      }
+      .lang-btn {
+        grid-column: 2;
+        grid-row: 1;
+        justify-self: end;
+        padding: 0.45rem 0.9rem;
+        font-size: 0.8rem;
+        white-space: nowrap;
       }
       .process-flow {
         flex-direction: column;
